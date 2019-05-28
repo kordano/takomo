@@ -1,0 +1,16 @@
+;; shadow-cljs configuration
+{:source-paths
+ ["src/cljs"
+  "test/cljs"]
+
+ :dependencies [[reagent "0.8.1"]]
+
+:builds
+ {:dev
+  {:target :browser
+   :modules {:main {:init-fn johto-client.core/init}}
+   :output-dir "resources/public/js"
+   :asset-path "/js"
+   :devtools
+   {:http-root "resources/public"
+    :http-port 8080}}}}

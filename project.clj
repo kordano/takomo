@@ -10,5 +10,6 @@
                  [io.replikativ/hasch "0.3.6-SNAPSHOT"]
                  [metosin/reitit "0.3.9"]
                  [http-kit "2.3.0"]
-                 [metosin/muuntaja "0.6.4"]]
+                 [metosin/muuntaja "0.6.4"]
+                 [clj-time "0.15.1"]]
   :repl-options {:init-ns takomo.core})

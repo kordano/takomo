@@ -51,6 +51,8 @@
   :db/cardinality :db.cardinality/one}
  {:db/ident :document/reference
   :db/valueType :db.type/string
+  :db/unique :db.unique/identity
+  :db/index true
   :db/cardinality :db.cardinality/one}
  {:db/ident :document/fileName
   :db/valueType :db.type/string

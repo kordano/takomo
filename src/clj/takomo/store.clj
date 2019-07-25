@@ -82,9 +82,10 @@
 (defn delete-customer [id]
   (d/transact! (:conn @state) [[:db/retractEntity id]]))
 
+
 (comment
 
-  (d/delete-database (-> state deref :uri))
+  (d/delete-database (:uri @state))
 
   (init)
 

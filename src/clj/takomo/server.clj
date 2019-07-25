@@ -13,6 +13,7 @@
             [reitit.ring.coercion :as rrc]
             [clojure.spec.alpha :as s]
             [takomo.model]
+            [takomo.store.document :as sd]
             [org.httpkit.server :as kit]))
 
 (defonce state (atom {:server nil}))
@@ -78,6 +79,29 @@
                  :swagger {:tags ["customer"]}
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                (store/delete-customer id)
+                               {:status 200})}}]
+      ["/documents" {:get {:responses {200 {:body :takomo.model/documents}}
+                           :swagger {:tags ["document"]}
+                           :handler (fn [req]
+                                      {:status 200
+                                       :body (sd/read-documents)})}
+                     :post {:parameters {:body :takomo.model/document}
+                            :swagger {:tags ["document"]}
+                            :handler (fn [{{new-document :body} :parameters}]
+                                       (sd/create-document new-document)
+                                       {:status 200})}}]
+      ["/documents/:id"
+       {:put    {:parameters {:body :takomo.model/document
+                              :path ::path-params}
+
+                 :swagger {:tags ["document"]}
+                 :handler    (fn [{{updated-document :body {:keys [id]} :path} :parameters}]
+                               (sd/update-document (assoc updated-document :db/id id))
+                               {:status 200})}
+        :delete {:parameters {:path ::path-params}
+                 :swagger {:tags ["document"]}
+                 :handler    (fn [{{{:keys [id]} :path} :parameters}]
+                               (sd/delete-document id)
                                {:status 200})}}]]]
 
     {:data {:coercion reitit.coercion.spec/coercion

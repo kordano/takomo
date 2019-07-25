@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "db006eb0-59f4-4783-a8c8-4b8d5262b7d1",
+		"name": "takomo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get all members",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/members",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"members"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new member",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"member/firstname\": \"Bob\",\n\t\"member/lastname\": \"the Baumeister\",\n\t\"member/email\": \"bob@builder.org\",\n\t\"member/password\": \"123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/members",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"members"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update member",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"member/firstname\": \"Bobby\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/members/38",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"members",
+						"38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete member",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/members/38",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"members",
+						"38"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all customers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customer/name\": \"Evil Corp\",\n\t\"customer/contact\": \"Doctor Doom\",\n\t\"customer/department\": \"Monarch\",\n\t\"customer/city\": \"Doomstaddt\",\n\t\"customer/street\": \"King's Ave 1\",\n\t\"customer/postal\": \"666\",\n\t\"customer/country\": \"Latveria\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update customer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"customer/postal\": \"999\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/customers/43",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"customers",
+						"43"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete customer",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/customers/37",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"customers",
+						"37"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

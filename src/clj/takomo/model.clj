@@ -31,7 +31,7 @@
 (s/def :customer/country string?)
 (s/def ::customer (s/keys :opt [:db/id
                                 :customer/name
-                                :customer/contract
+                                :customer/contact
                                 :customer/department
                                 :customer/city
                                 :customer/street

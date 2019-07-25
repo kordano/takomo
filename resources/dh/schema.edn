@@ -10,6 +10,9 @@
   :db/cardinality :db.cardinality/one
   :db/unique :db.unique/identity
   :db/index true}
+ {:db/ident :member/role
+  :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/one}
  {:db/ident :member/salt
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
@@ -43,13 +46,13 @@
   :db/cardinality :db.cardinality/one}
 
  ;; document
- {:db/ident :document/created-at
+ {:db/ident :document/createdAt
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
  {:db/ident :document/reference
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :document/file-name
+ {:db/ident :document/fileName
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
 
@@ -57,33 +60,33 @@
  {:db/ident :task/title
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :task/assignee
-  :db/valueType :db.type/ref
+ {:db/ident :task/description
+  :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
+ {:db/ident :task/assignees
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many}
  {:db/ident :task/estimation
   :db/valueType :db.type/double
   :db/cardinality :db.cardinality/one}
- {:db/ident :task/effort
-  :db/valueType :db.type/double
-  :db/cardinality :db.cardinality/one}
- {:db/ident :task/effort-unit
+ {:db/ident :task/estimation-unit
   :db/valueType :db.type/keyword
   :db/cardinality :db.cardinality/one}
 
- ;; time tracking
- {:db/ident :tracker/start
+ ;; effort
+ {:db/ident :effort/start
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :tracker/end
+ {:db/ident :effort/end
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :tracker/description
+ {:db/ident :effort/description
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :tracker/task
+ {:db/ident :effort/task
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
- {:db/ident :tracker/member
+ {:db/ident :effort/member
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
 
@@ -91,16 +94,19 @@
  {:db/ident :project/title
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/start-date
+ {:db/ident :project/description
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/startDate
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/end-date
+ {:db/ident :project/endDate
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/accepted-at
+ {:db/ident :project/acceptedAt
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/paid-at
+ {:db/ident :project/paidAt
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
  {:db/ident :project/customer

@@ -12,7 +12,7 @@
     (d/create-database {:uri uri :initial-tx schema-tx})
     (swap! state assoc :conn (d/connect uri))))
 
-(def member-keys [:member/firstname :member/lastname :member/email])
+(def member-keys [:member/firstname :member/lastname :member/email :member/role])
 
 (defn create-member [{:keys [:member/password] :as new-member}]
   (d/transact! (:conn @state) [(-> new-member

@@ -66,6 +66,9 @@
  {:db/ident :task/assignees
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many}
+ {:db/ident :task/project
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
  {:db/ident :task/estimation
   :db/valueType :db.type/double
   :db/cardinality :db.cardinality/one}

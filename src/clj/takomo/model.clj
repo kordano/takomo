@@ -46,7 +46,8 @@
 (s/def :task/assignees (s/coll-of ::id))
 (s/def :task/estimation double?)
 (s/def :task/estimation-unit keyword?)
-(s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignee :task/estimation :task/effortUnit]))
+(s/def :task/project ::id)
+(s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignee :task/estimation :task/effortUnit :task/project]))
 (s/def ::tasks (s/coll-of ::task))
 
 (s/def :effort/start string?)

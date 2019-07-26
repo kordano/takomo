@@ -148,4 +148,11 @@
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
   :db/unique :db.unique/identity
-  :db/index true}]
+  :db/index true}
+
+ {:member/passhash "jGsOQw4P7e2Fq+4dkny5Qho02zptOj6r3wHV4yxNr6HdkKVIm5LYDU9mRfbgB3+3lw+90VZ/XVEXGsUhEDbK7g=="
+  :member/email "admin@takomo.eu"
+  :member/firstname "Admin"
+  :member/lastname ""
+  :member/salt "123"}
+ ]

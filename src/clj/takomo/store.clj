@@ -12,9 +12,18 @@
     (d/create-database {:uri uri :initial-tx schema-tx})
     (swap! state assoc :conn (d/connect uri))))
 
+
+
 (defn get-db []
   (d/db (:conn @state)))
 
 (defn get-conn []
   (:conn @state))
 
+
+(comment
+
+  (d/delete-database (:uri @state))
+  (init)
+
+  )

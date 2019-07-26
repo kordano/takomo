@@ -1,14 +1,25 @@
 # takomo
 
-A Clojure library designed to ... well, that part is up to you.
+Example project for CARD stack, a simple ERP system.
 
 ## Usage
 
-FIXME
+Start server in `/src/clj/takomo/core.clj`:
+
+``` clojure
+(-main)
+```
+
+Start frontend in two shells:
+
+``` sh
+shadow-cljs watch dev
+shadow-cljs cljs-repl dev
+```
 
 ## License
 
-Copyright © 2019 FIXME
+Copyright © 2019 Konrad Kühne
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at

@@ -1,5 +1,6 @@
 (ns takomo.store.member
   (:require [datahike.api :as d]
+            [hasch.core :as h]
             [takomo.store :refer [get-db get-conn]]))
 
 (def member-keys [:member/firstname :member/lastname :member/email :member/role])

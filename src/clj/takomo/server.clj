@@ -17,7 +17,8 @@
              [document :as sd]
              [effort :as se]
              [member :as sm]
-             [task :as st]]
+             [task :as st]
+             [prjct :as sp]]
             [org.httpkit.server :as kit]))
 
 (defonce state (atom {:server nil}))
@@ -109,7 +110,7 @@
                                (sd/delete-document id)
                                {:status 200})}}]
 
-      ["/tasks" {:get {:responses {200 {:body :takomo.model/task}}
+      ["/tasks" {:get {:responses {200 {:body :takomo.model/tasks}}
                            :swagger {:tags ["task"]}
                            :handler (fn [req]
                                       {:status 200
@@ -132,7 +133,7 @@
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                (st/delete-task id)
                                {:status 200})}}]
-      ["/efforts" {:get {:responses {200 {:body :takomo.model/effort}}
+      ["/efforts" {:get {:responses {200 {:body :takomo.model/efforts}}
                            :swagger {:tags ["effort"]}
                            :handler (fn [req]
                                       {:status 200
@@ -155,6 +156,31 @@
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                (se/delete-effort id)
                                {:status 200})}}]
+
+      ["/projects" {:get {:responses {200 {:body :takomo.model/projects}}
+                           :swagger {:tags ["project"]}
+                           :handler (fn [req]
+                                      {:status 200
+                                       :body (sp/read-projects)})}
+                     :post {:parameters {:body :takomo.model/project}
+                            :swagger {:tags ["project"]}
+                            :handler (fn [{{new-project :body} :parameters}]
+                                       (sp/create-project new-project)
+                                       {:status 200})}}]
+      ["/projects/:id"
+       {:put    {:parameters {:body :takomo.model/project
+                              :path ::path-params}
+
+                 :swagger {:tags ["project"]}
+                 :handler    (fn [{{updated-project :body {:keys [id]} :path} :parameters}]
+                               (sp/update-project (assoc updated-project :db/id id))
+                               {:status 200})}
+        :delete {:parameters {:path ::path-params}
+                 :swagger {:tags ["project"]}
+                 :handler    (fn [{{{:keys [id]} :path} :parameters}]
+                               (sp/delete-project id)
+                               {:status 200})}}]
+
       ]]
 
 

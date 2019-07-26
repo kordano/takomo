@@ -18,11 +18,3 @@
 (defn get-conn []
   (:conn @state))
 
-
-(comment
-
-  (d/delete-database (:uri @state))
-
-  (init)
-
-  )

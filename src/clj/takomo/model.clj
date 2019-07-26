@@ -35,21 +35,20 @@
                                 :customer/country]))
 (s/def ::customers (s/coll-of ::customer))
 
-(s/def :document/createdAt string?)
 (s/def :document/reference string?)
 (s/def :document/fileName string?)
-(s/def ::document (s/keys :opt [:db/id :document/fileName :document/reference :document/createdAt]))
+(s/def ::document (s/keys :opt [:db/id :document/fileName :document/reference]))
 (s/def ::documents (s/coll-of ::document))
 
 (s/def :task/title string?)
 (s/def :task/description string?)
 (s/def :task/assignees (s/coll-of ::id))
 (s/def :task/estimation double?)
-(s/def :task/estimationUnit keyword?)
+(s/def :task.estimation/unit keyword?)
 (s/def :task/reference string?)
 (s/def :task/project ::id)
 
-(s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignees :task/estimation :task/estimationUnit :task/project :task/reference]))
+(s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignees :task/estimation :task.estimation/unit :task/project :task/reference]))
 (s/def ::tasks (s/coll-of ::task))
 
 (s/def :effort/startDate string?)
@@ -71,11 +70,15 @@
 (s/def :project/members (s/coll-of ::id))
 (s/def :project/invoice ::id)
 (s/def :project/offers (s/coll-of ::id))
+(s/def :project/responsible int?)
 (s/def :project/rate int?)
-(s/def :project/rateUnit keyword?)
+(s/def :project.rate/unit keyword?)
+(s/def :project/reference string?)
 (s/def ::project (s/keys :opt [:db/id
+                               :project/reference
                                :project/title
                                :project/description
+                               :project/responsible
                                :project/startDate
                                :project/endDate
                                :project/acceptedAt
@@ -85,5 +88,5 @@
                                :project/invoice
                                :project/offers
                                :project/rate
-                               :projett/rateUnit]))
+                               :project.rate/unit]))
 (s/def ::projects (s/coll-of ::project))

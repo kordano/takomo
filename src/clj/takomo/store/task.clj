@@ -5,18 +5,35 @@
             [clj-time.core :as t]
             [hasch.core :as h]))
 
-(def task-keys [:task/title :task/description :task/assignees :task/project :task/estimation :task/estimationUnit :task/reference])
+(def task-keys [:task/title :task/description :task/assignees :task/project :task/estimation :task.estimation/unit :task/reference])
+
+(defn preprocess [task]
+  (-> task
+      (update :task/estimation double)))
 
 (defn create-task [task]
-  (d/transact! (get-conn) [(select-keys task task-keys)]))
+  (d/transact! (get-conn) [(-> task
+                               (select-keys task-keys)
+                               preprocess)]))
+
+(defn postprocess [task]
+  (-> task
+      (update :task/assignees #(mapv :db/id %))
+      (update :task/project #(get % :db/id))))
 
 (defn read-tasks []
-  (d/q '[:find [(pull ?e [*]) ...]
-         :where
-         [?e :task/title ?t]] (get-db)))
+  (->> (get-db)
+       (d/q '[:find [(pull ?e [*]) ...]
+              :where
+              [?e :task/title ?t]] )
+       (mapv postprocess)))
+
+(read-tasks)
 
 (defn read-task-by-id [id]
-  (d/pull (get-db) '[*] id))
+  (-> (get-db)
+      (d/pull  '[*] id)
+      postprocess))
 
 (defn read-task-by-reference [reference]
   (read-task-by-id [:task/reference reference]))

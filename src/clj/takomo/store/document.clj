@@ -5,7 +5,7 @@
             [clj-time.core :as t]
             [hasch.core :as h]))
 
-(def document-keys [:document/createdAt :document/reference :document/fileName])
+(def document-keys [:document/reference :document/fileName])
 
 (defn create-document [document]
   (d/transact! (get-conn) [(select-keys document document-keys)]))
@@ -15,17 +15,14 @@
 
 (defn read-documents []
   (->>
-   (d/q '[:find [(pull ?e [:db/id :document/createdAt :document/reference :document/fileName])]
+   (d/q '[:find [(pull ?e [*])]
           :where [?e :document/reference ?r]]
         (get-db))
    (mapv post-process)))
 
 (defn read-document-by-id [id]
   (-> (get-db)
-      (d/pull  '[:db/id
-                 :document/createdAt
-                 :document/reference
-                 :document/fileName] id)
+      (d/pull '[*] id)
       post-process))
 
 (defn read-document-by-reference [reference]

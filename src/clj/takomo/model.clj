@@ -45,9 +45,11 @@
 (s/def :task/description string?)
 (s/def :task/assignees (s/coll-of ::id))
 (s/def :task/estimation double?)
-(s/def :task/estimation-unit keyword?)
+(s/def :task/estimationUnit keyword?)
+(s/def :task/reference string?)
 (s/def :task/project ::id)
-(s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignee :task/estimation :task/effortUnit :task/project]))
+
+(s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignees :task/estimation :task/estimationUnit :task/project :task/reference]))
 (s/def ::tasks (s/coll-of ::task))
 
 (s/def :effort/start string?)
@@ -68,6 +70,8 @@
 (s/def :project/members (s/coll-of ::id))
 (s/def :project/invoice ::id)
 (s/def :project/offers (s/coll-of ::id))
+(s/def :project/rate int?)
+(s/def :project/rateUnit keyword?)
 (s/def ::project (s/keys :opt [:db/id
                                :project/title
                                :project/description
@@ -78,5 +82,7 @@
                                :project/customer
                                :project/members
                                :project/invoice
-                               :project/offers]))
+                               :project/offers
+                               :project/rate
+                               :projett/rateUnit]))
 (s/def ::projects (s/coll-of ::project))

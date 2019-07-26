@@ -74,8 +74,13 @@
  {:db/ident :task/estimation
   :db/valueType :db.type/double
   :db/cardinality :db.cardinality/one}
- {:db/ident :task/estimation-unit
+ {:db/ident :task/estimationUnit
   :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :task/reference
+  :db/valueType :db.type/string
+  :db/unique :db.unique/identity
+  :db/index true
   :db/cardinality :db.cardinality/one}
 
  ;; effort
@@ -129,4 +134,10 @@
  {:db/ident :project/offers
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/many}
+ {:db/ident :project/rate
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/rateUnit
+  :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/one}
  ]

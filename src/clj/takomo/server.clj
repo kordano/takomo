@@ -14,6 +14,7 @@
             [clojure.spec.alpha :as s]
             [takomo.model]
             [takomo.store.document :as sd]
+            [takomo.store.task :as st]
             [org.httpkit.server :as kit]))
 
 (defonce state (atom {:server nil}))
@@ -102,7 +103,32 @@
                  :swagger {:tags ["document"]}
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                (sd/delete-document id)
+                               {:status 200})}}]
+
+      ["/tasks" {:get {:responses {200 {:body :takomo.model/task}}
+                           :swagger {:tags ["task"]}
+                           :handler (fn [req]
+                                      {:status 200
+                                       :body (st/read-tasks)})}
+                     :post {:parameters {:body :takomo.model/task}
+                            :swagger {:tags ["task"]}
+                            :handler (fn [{{new-task :body} :parameters}]
+                                       (st/create-task new-task)
+                                       {:status 200})}}]
+      ["/tasks/:id"
+       {:put    {:parameters {:body :takomo.model/task
+                              :path ::path-params}
+
+                 :swagger {:tags ["task"]}
+                 :handler    (fn [{{updated-task :body {:keys [id]} :path} :parameters}]
+                               (st/update-task (assoc updated-task :db/id id))
+                               {:status 200})}
+        :delete {:parameters {:path ::path-params}
+                 :swagger {:tags ["task"]}
+                 :handler    (fn [{{{:keys [id]} :path} :parameters}]
+                               (st/delete-task id)
                                {:status 200})}}]]]
+
 
     {:data {:coercion reitit.coercion.spec/coercion
             :muuntaja m/instance
@@ -135,8 +161,6 @@
   (start-server)
 
   (stop-server)
-
-  @state
 
 
   )

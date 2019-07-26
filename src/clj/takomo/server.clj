@@ -131,7 +131,31 @@
                  :swagger {:tags ["task"]}
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                (st/delete-task id)
-                               {:status 200})}}]]]
+                               {:status 200})}}]
+      ["/efforts" {:get {:responses {200 {:body :takomo.model/effort}}
+                           :swagger {:tags ["effort"]}
+                           :handler (fn [req]
+                                      {:status 200
+                                       :body (se/read-efforts)})}
+                     :post {:parameters {:body :takomo.model/effort}
+                            :swagger {:tags ["effort"]}
+                            :handler (fn [{{new-effort :body} :parameters}]
+                                       (se/create-effort new-effort)
+                                       {:status 200})}}]
+      ["/efforts/:id"
+       {:put    {:parameters {:body :takomo.model/effort
+                              :path ::path-params}
+
+                 :swagger {:tags ["effort"]}
+                 :handler    (fn [{{updated-effort :body {:keys [id]} :path} :parameters}]
+                               (se/update-effort (assoc updated-effort :db/id id))
+                               {:status 200})}
+        :delete {:parameters {:path ::path-params}
+                 :swagger {:tags ["effort"]}
+                 :handler    (fn [{{{:keys [id]} :path} :parameters}]
+                               (se/delete-effort id)
+                               {:status 200})}}]
+      ]]
 
 
     {:data {:coercion reitit.coercion.spec/coercion

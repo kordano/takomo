@@ -84,19 +84,24 @@
   :db/cardinality :db.cardinality/one}
 
  ;; effort
- {:db/ident :effort/start
+ {:db/ident :effort/startDate
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :effort/end
+ {:db/ident :effort/endDate
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
  {:db/ident :effort/description
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
+ {:db/ident :effort/reference
+  :db/valueType :db.type/string
+  :db/unique :db.unique/identity
+  :db/index true
+  :db/cardinality :db.cardinality/one}
  {:db/ident :effort/task
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
- {:db/ident :effort/member
+ {:db/ident :effort/assignee
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
 

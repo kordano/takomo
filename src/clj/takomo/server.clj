@@ -1,7 +1,6 @@
 (ns takomo.server
   (:require [reitit.http :as http]
             [reitit.ring :as ring]
-            [takomo.store :as store]
             [muuntaja.core :as m]
             [reitit.swagger :as swagger]
             [reitit.swagger-ui :as swagger-ui]
@@ -13,8 +12,12 @@
             [reitit.ring.coercion :as rrc]
             [clojure.spec.alpha :as s]
             [takomo.model]
-            [takomo.store.document :as sd]
-            [takomo.store.task :as st]
+            [takomo.store
+             [customer :as sc]
+             [document :as sd]
+             [effort :as se]
+             [member :as sm]
+             [task :as st]]
             [org.httpkit.server :as kit]))
 
 (defonce state (atom {:server nil}))
@@ -36,11 +39,11 @@
                           :swagger {:tags ["member"]}
                           :handler   (fn [req]
                                        {:status 200
-                                        :body   (store/read-members)})}
+                                        :body   (sm/read-members)})}
                    :post {:parameters {:body :takomo.model/member}
                           :swagger {:tags ["member"]}
                           :handler    (fn [{{new-member :body} :parameters}]
-                                        (store/create-member new-member)
+                                        (sm/create-member new-member)
                                         {:status 200})}}]
 
       ["/members/:id"
@@ -49,23 +52,23 @@
 
                  :swagger {:tags ["member"]}
                  :handler    (fn [{{updated-member :body {:keys [id]} :path} :parameters}]
-                               (store/update-member (assoc updated-member :db/id id))
+                               (sm/update-member (assoc updated-member :db/id id))
                                {:status 200})}
         :delete {:parameters {:path ::path-params}
                  :swagger {:tags ["member"]}
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
-                               (store/delete-member id)
+                               (sm/delete-member id)
                                {:status 200})}}]
 
       ["/customers" {:get {:responses {200 {:body :takomo.model/customers}}
                            :swagger {:tags ["customer"]}
                            :handler (fn [req]
                                       {:status 200
-                                       :body (store/read-customers)})}
+                                       :body (sc/read-customers)})}
                      :post {:parameters {:body :takomo.model/customer}
                             :swagger {:tags ["customer"]}
                             :handler (fn [{{new-customer :body} :parameters}]
-                                       (store/create-customer new-customer)
+                                       (sc/create-customer new-customer)
                                        {:status 200})}}]
 
       ["/customers/:id"
@@ -74,13 +77,14 @@
 
                  :swagger {:tags ["customer"]}
                  :handler    (fn [{{updated-customer :body {:keys [id]} :path} :parameters}]
-                               (store/update-customer (assoc updated-customer :db/id id))
+                               (sc/update-customer (assoc updated-customer :db/id id))
                                {:status 200})}
         :delete {:parameters {:path ::path-params}
                  :swagger {:tags ["customer"]}
                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
-                               (store/delete-customer id)
+                               (sc/delete-customer id)
                                {:status 200})}}]
+
       ["/documents" {:get {:responses {200 {:body :takomo.model/documents}}
                            :swagger {:tags ["document"]}
                            :handler (fn [req]
@@ -155,8 +159,6 @@
 
 
 (comment
-
-  (store/init)
 
   (start-server)
 

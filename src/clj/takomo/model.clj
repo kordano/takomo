@@ -52,12 +52,13 @@
 (s/def ::task (s/keys :opt [:db/id :task/title :task/description :task/assignees :task/estimation :task/estimationUnit :task/project :task/reference]))
 (s/def ::tasks (s/coll-of ::task))
 
-(s/def :effort/start string?)
-(s/def :effort/end string?)
+(s/def :effort/startDate string?)
+(s/def :effort/endDate string?)
 (s/def :effort/description string?)
+(s/def :effort/reference string?)
 (s/def :effort/task ::id)
-(s/def :effort/member ::id)
-(s/def ::effort (s/keys :opt [:db/id :effort/start :effort/end :effort/description :effort/task :effort/member]))
+(s/def :effort/assignee ::id)
+(s/def ::effort (s/keys :opt [:db/id :effort/startDate :effort/endDate :effort/description :effort/task :effort/assignee :effort/reference]))
 (s/def ::efforts (s/coll-of ::effort))
 
 (s/def :project/title string?)

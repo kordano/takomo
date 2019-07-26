@@ -12,6 +12,12 @@
   },
   "author": "lambdaforge UG (haftungsbeschränkt)",
   "license": "ISC",
+  "dependencies": {
+    "@material-ui/core": "^3.9.2",
+    "create-react-class": "^15.6.3",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  },
   "devDependencies": {
     "shadow-cljs": "^2.8.37"
   }

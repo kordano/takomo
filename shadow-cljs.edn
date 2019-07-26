@@ -8,7 +8,7 @@
 :builds
  {:dev
   {:target :browser
-   :modules {:main {:init-fn johto-client.core/init}}
+   :modules {:main {:init-fn takomo.core/init}}
    :output-dir "resources/public/js"
    :asset-path "/js"
    :devtools

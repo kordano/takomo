@@ -28,8 +28,6 @@
               [?e :task/title ?t]] )
        (mapv postprocess)))
 
-(read-tasks)
-
 (defn read-task-by-id [id]
   (-> (get-db)
       (d/pull  '[*] id)

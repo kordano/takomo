@@ -9,7 +9,8 @@
 
 (defn preprocess [task]
   (-> task
-      (update :task/estimation double)))
+      (update :task/estimation double)
+      tu/remove-namespace))
 
 (defn create-task [task]
   (d/transact! (get-conn) [(-> task
@@ -19,7 +20,8 @@
 (defn postprocess [task]
   (-> task
       (update :task/assignees #(mapv :db/id %))
-      (update :task/project #(get % :db/id))))
+      (update :task/project #(get % :db/id))
+      tu/remove-namespace))
 
 (defn read-tasks []
   (->> (get-db)

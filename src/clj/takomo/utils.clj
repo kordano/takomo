@@ -31,3 +31,23 @@
      (tf/with-zone (tf/formatters :date-time-no-ms)
        (.getZone date-time))
      date-time)))
+
+(defn remove-namespace [data]
+  (reduce-kv (fn [m k v] (assoc m (keyword (name k)) v)) {} data))
+
+(defn add-namespace [data namespace]
+  (reduce-kv (fn [m k v] (assoc m (keyword (str (name namespace) "/" (name k))) v)) {} data))
+
+(comment
+
+  (def foo {:bar/baz :qux})
+
+  (def bar {:baz :qux})
+
+  (add-namespace bar :bar)
+
+
+
+  (keyword (name :bar/baz))
+
+  )

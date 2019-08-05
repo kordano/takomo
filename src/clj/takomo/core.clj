@@ -3,6 +3,7 @@
             [takomo.server :as server]))
 
 (defn -main [& args]
+  (println "Starting server!")
   (store/init)
   (server/start-server))
 
@@ -10,4 +11,4 @@
 
   (-main)
 
-  )
+)

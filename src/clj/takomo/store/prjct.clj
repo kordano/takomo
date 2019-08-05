@@ -2,7 +2,8 @@
   (:require [datahike.api :as d]
             [datahike.core :as dc]
             [clojure.string :refer [split upper-case join]]
-            [takomo.store :refer [get-db get-conn]]))
+            [takomo.store :refer [get-db get-conn]]
+            [takomo.utils :as tu]))
 
 (def project-initial-keys
   [:project/title :project/description :project/startDate :project/endDate :project/customer
@@ -34,7 +35,8 @@
 (defn preprocess [{:keys [:project/title] :as project}]
   (-> project
       (assoc :project/reference (create-reference title))
-      (update :project/rate long)))
+      (update :project/rate long)
+      tu/remove-namespace))
 
 
 (defn create-project [project]
@@ -48,7 +50,7 @@
       (update :project/members #(mapv :db/id %))
       (update :project/customer #(get % :db/id))
       (update :project/responsible #(get % :db/id))
-      ))
+      tu/remove-namespace))
 
 (defn read-projects []
   (->> (get-db)

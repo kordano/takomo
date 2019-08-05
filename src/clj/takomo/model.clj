@@ -15,7 +15,7 @@
 (s/def :member/salt string?)
 (s/def :member/passhash string?)
 (s/def :member/password string?)
-(s/def ::member (s/keys :opt [:db/id :member/firstname :member/lastname :member/email :member/password]))
+(s/def ::member (s/keys :opt-un [:db/id :member/firstname :member/lastname :member/email :member/password]))
 (s/def ::members (s/coll-of ::member))
 
 (s/def :customer/name string?)
@@ -25,7 +25,7 @@
 (s/def :customer/street string?)
 (s/def :customer/postal string?)
 (s/def :customer/country string?)
-(s/def ::customer (s/keys :opt [:db/id
+(s/def ::customer (s/keys :opt-un [:db/id
                                 :customer/name
                                 :customer/contact
                                 :customer/department

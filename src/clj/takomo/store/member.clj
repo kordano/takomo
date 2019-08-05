@@ -1,16 +1,24 @@
 (ns takomo.store.member
   (:require [datahike.api :as d]
             [hasch.core :as h]
+            [takomo.utils :as tu]
             [takomo.store :refer [get-db get-conn]]))
 
 (def member-keys [:member/firstname :member/lastname :member/email :member/role])
 
-(defn create-member [{:keys [:member/password] :as new-member}]
-  (d/transact! (get-conn) [(-> new-member
-                       (select-keys member-keys)
-                       (merge
-                        {:member/salt     "123"
-                         :member/passhash (h/b64-hash password)}))]))
+(defn preprocess [member]
+  (-> member
+      (select-keys member-keys)
+      (merge
+       {:member/salt     "123"
+        :member/passhash (h/b64-hash (:member/password member))})))
+
+(defn postprocess [member]
+  (-> member
+      tu/remove-namespace))
+
+(defn create-member [member]
+  (d/transact! (get-conn) [(preprocess member)]))
 
 (defn read-members []
   (d/q '[:find [(pull ?e [:db/id :member/firstname :member/lastname :member/email]) ...] :where [?e :member/email ?email]]

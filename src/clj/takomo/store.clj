@@ -24,6 +24,9 @@
 (comment
 
   (d/delete-database (:uri @state))
-  (init)
+
+
+  (let [{:keys [foo/bar]} {:foo/bar 2}]
+    bar)
 
   )

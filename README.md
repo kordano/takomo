@@ -14,7 +14,6 @@ Start frontend in two shells:
 
 ``` sh
 shadow-cljs watch dev
-shadow-cljs cljs-repl dev
 ```
 
 ## License

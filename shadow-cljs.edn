@@ -3,7 +3,8 @@
  ["src/cljs"
   "test/cljs"]
 
- :dependencies [[reagent "0.8.1"]]
+ :dependencies [[reagent "0.8.1" exclusions [cljsjs/react cljsjs/react-dom]]
+                [cljs-ajax "0.8.0"]]
 
 :builds
  {:dev

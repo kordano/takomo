@@ -16,6 +16,7 @@ Start frontend in two shells:
 shadow-cljs watch dev
 ```
 
+Connect with your editor to the repl port given by shadow-cljs.
 ## License
 
 Copyright © 2019 Konrad Kühne

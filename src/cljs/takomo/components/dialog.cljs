@@ -13,9 +13,6 @@
       (.append form-data (name k) v))
     form-data))
 
-(defn clear-input [state]
-  )
-
 (defn member-text-field [state attribute type label]
   [:> TextField {:autoFocus true
                  :fullWidth true
@@ -59,4 +56,3 @@
          [:> Grid {:item true}
           [:> Button {:onClick close-dialog :color :secondary} "Cancel"]]]]])))
 
-(clj->js {:foo/bar "baz"})

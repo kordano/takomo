@@ -9,13 +9,17 @@
 (defonce state (r/atom {}))
 
 (def style
-  {:fab {:padding "8px 8px 8px 8px"}})
+  {:fab {:padding "8px 8px 8px 8px"
+         :position :absolute
+         :right "8px"
+         :bottom "8px"}})
 
 (defn members-table [members]
   (let []
     [:> Paper
      [:> Grid {:container true
                :direction :column}
+
       [:> Grid {:item true} [:> Typography {:className "title" :variant :h5} "Members"]]
       [:> Grid {:item true}
        [:> Table
@@ -32,15 +36,13 @@
                             [:> TableCell firstname]
                             [:> TableCell lastname]
                             [:> TableCell email]])
-              members)]]]]
-     [:> Grid {:item true}
-      [:> Grid {:container true :direction :row :justify :flex-end :alignItems :flex-end}
-       [:> Fab {:size :medium :color :primary :style (:fab style) :onClick #(swap! state assoc-in [:dialogs :member :open?] true)} [:> Add]]]]]))
+              members)]]]]]))
 
 (defn simple-component [state]
   [:div
    (members-table (@state :members))
-   (member-dialog state)])
+   (member-dialog state)
+   [:> Fab {:size :medium :color :primary :style (:fab style) :onClick #(swap! state assoc-in [:dialogs :member :open?] true)} [:> Add]]])
 
 
 (defn init []

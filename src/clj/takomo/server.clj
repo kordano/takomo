@@ -43,18 +43,18 @@
                            :handler   (fn [req]
                                         {:status 200
                                          :body   (sm/read-members)})}
-                    :post {:parameters {:form :takomo.model/new-member}
+                    :post {:parameters {:body :takomo.model/new-member}
                            :swagger {:tags ["member"]}
-                           :handler    (fn [{{new-member :form} :parameters}]
+                           :handler    (fn [{{new-member :body} :parameters}]
                                          (sm/create-member new-member)
                                          {:status 200})}}]
 
        ["/members/:id"
-        {:put    {:parameters {:form :takomo.model/new-member
+        {:put    {:parameters {:body :takomo.model/new-member
                                :path ::path-params}
 
                   :swagger {:tags ["member"]}
-                  :handler    (fn [{{updated-member :form {:keys [id]} :path} :parameters}]
+                  :handler    (fn [{{updated-member :body {:keys [id]} :path} :parameters}]
                                 (sm/update-member (assoc updated-member :db/id id))
                                 {:status 200})}
          :delete {:parameters {:path ::path-params}
@@ -68,18 +68,18 @@
                             :handler (fn [req]
                                        {:status 200
                                         :body (sc/read-customers)})}
-                      :post {:parameters {:form :takomo.model/new-customer}
+                      :post {:parameters {:body :takomo.model/new-customer}
                              :swagger {:tags ["customer"]}
-                             :handler (fn [{{new-customer :form} :parameters}]
+                             :handler (fn [{{new-customer :body} :parameters}]
                                         (sc/create-customer new-customer)
                                         {:status 200})}}]
 
        ["/customers/:id"
-        {:put    {:parameters {:form :takomo.model/new-customer
+        {:put    {:parameters {:body :takomo.model/new-customer
                                :path ::path-params}
 
                   :swagger {:tags ["customer"]}
-                  :handler    (fn [{{updated-customer :form {:keys [id]} :path} :parameters}]
+                  :handler    (fn [{{updated-customer :body {:keys [id]} :path} :parameters}]
                                 (sc/update-customer (assoc updated-customer :db/id id))
                                 {:status 200})}
          :delete {:parameters {:path ::path-params}
@@ -105,9 +105,9 @@
                         :handler (fn [req]
                                    {:status 200
                                     :body (st/read-tasks)})}
-                  :post {:parameters {:form :takomo.model/new-task}
+                  :post {:parameters {:body :takomo.model/new-task}
                          :swagger {:tags ["task"]}
-                         :handler (fn [{{new-task :form} :parameters}]
+                         :handler (fn [{{new-task :body} :parameters}]
                                     (st/create-task new-task)
                                     {:status 200})}}]
        ["/tasks/:id"
@@ -128,17 +128,17 @@
                           :handler (fn [req]
                                      {:status 200
                                       :body (se/read-efforts)})}
-                    :post {:parameters {:form :takomo.model/new-effort}
+                    :post {:parameters {:body :takomo.model/new-effort}
                            :swagger {:tags ["effort"]}
-                           :handler (fn [{{new-effort :form} :parameters}]
+                           :handler (fn [{{new-effort :body} :parameters}]
                                       (se/create-effort new-effort)
                                       {:status 200})}}]
        ["/efforts/:id"
-        {:put    {:parameters {:form :takomo.model/new-effort
+        {:put    {:parameters {:body :takomo.model/new-effort
                                :path ::path-params}
 
                   :swagger {:tags ["effort"]}
-                  :handler    (fn [{{updated-effort :form {:keys [id]} :path} :parameters}]
+                  :handler    (fn [{{updated-effort :body {:keys [id]} :path} :parameters}]
                                 (se/update-effort (assoc updated-effort :db/id id))
                                 {:status 200})}
          :delete {:parameters {:path ::path-params}
@@ -152,9 +152,9 @@
                            :handler (fn [req]
                                       {:status 200
                                        :body (sp/read-projects)})}
-                     :post {:parameters {:form :takomo.model/new-project}
+                     :post {:parameters {:body :takomo.model/new-project}
                             :swagger {:tags ["project"]}
-                            :handler (fn [{{new-project :form} :parameters}]
+                            :handler (fn [{{new-project :body} :parameters}]
                                        (sp/create-project new-project)
                                        {:status 200})}}]
        ["/projects/:id"
@@ -162,7 +162,7 @@
                                :path ::path-params}
 
                   :swagger {:tags ["project"]}
-                  :handler    (fn [{{updated-project :form {:keys [id]} :path} :parameters}]
+                  :handler    (fn [{{updated-project :body {:keys [id]} :path} :parameters}]
                                 (sp/update-project (assoc updated-project :db/id id))
                                 {:status 200})}
          :delete {:parameters {:path ::path-params}

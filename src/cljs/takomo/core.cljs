@@ -26,7 +26,7 @@
           [:> TableCell "Last Name"]
           [:> TableCell "Email"]]]
         [:> TableBody
-         (map (fn  [{:keys [:db/id :member/firstname :member/lastname :member/email]}]
+         (map (fn  [{:keys [id firstname lastname email]}]
                 ^{:key id} [:> TableRow
                             [:> TableCell id]
                             [:> TableCell firstname]
@@ -44,7 +44,7 @@
 
 
 (defn init []
-  #_(GET "http://localhost:3000/api/members" {:handler #(swap! state assoc :members (read-string (str %)))
+  (GET "http://localhost:3000/api/members" {:handler #(swap! state assoc :members (read-string (str %)))
                                             :response-format :json
                                             :keywords? true})
   (r/render
@@ -55,7 +55,7 @@
 (comment
 
 
-(GET "http://localhost:3000/api/members" {:handler #(swap! state assoc :members (read-string (str %)))
+  (GET "http://localhost:3000/api/members" {:handler #(swap! state assoc :members (read-string (str %)))
                                             :response-format :json
                                             :keywords? true})
 

@@ -9,6 +9,9 @@
 
 (comment
 
+  (server/stop-server)
+
   (-main)
 
-)
+
+  )

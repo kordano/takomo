@@ -9,13 +9,11 @@
 (defn init []
   (let [uri (:uri @state)
         schema-tx (-> "resources/dh/schema.edn" slurp read-string)]
-    (d/create-database {:uri uri :initial-tx schema-tx})
+    (d/create-database uri :initial-tx schema-tx)
     (swap! state assoc :conn (d/connect uri))))
 
-
-
 (defn get-db []
-  (d/db (:conn @state)))
+  (-> state deref :conn deref))
 
 (defn get-conn []
   (:conn @state))
@@ -23,10 +21,13 @@
 
 (comment
 
+  (init)
+
+  (get-db)
+
   (d/delete-database (:uri @state))
 
+  (takomo.store.customer/create-customer {:name "Foo"})
 
   (let [{:keys [foo/bar]} {:foo/bar 2}]
-    bar)
-
-  )
+    bar))

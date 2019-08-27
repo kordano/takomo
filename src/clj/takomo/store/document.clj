@@ -7,11 +7,18 @@
 
 (def document-keys [:document/reference :document/fileName])
 
+(defn pre-process [document]
+  (-> document
+      (tu/add-namespace :document)
+      (select-keys document-keys)))
+
 (defn create-document [document]
-  (d/transact! (get-conn) [(select-keys document document-keys)]))
+  (d/transact (get-conn) [(pre-process document)]))
 
 (defn post-process [doc]
-  (update doc :document/createdAt tu/format-to-iso-8601-date))
+  (-> doc
+      (update :document/createdAt tu/format-to-iso-8601-date)
+      tu/remove-namespace))
 
 (defn read-documents []
   (->>
@@ -31,9 +38,10 @@
 (defn update-document [{:keys [:db/id] :as document}]
   (if-not id
     (throw (ex-info "id should not be nil" {:db/id id}))
-    (d/transact! (get-conn) [(-> document
-                                  (select-keys (conj document-keys :db/id)))])))
+    (d/transact (get-conn) [(-> document
+                                pre-process
+                                (assoc :db/id id))])))
 
 (defn delete-document [id]
-  (d/transact! (get-conn) [[:db/retractEntity id]]))
+  (d/transact (get-conn) [[:db/retractEntity id]]))
 

@@ -36,18 +36,5 @@
   (reduce-kv (fn [m k v] (assoc m (keyword (name k)) v)) {} data))
 
 (defn add-namespace [data namespace]
-  (reduce-kv (fn [m k v] (assoc m (keyword (str (name namespace) "/" (name k))) v)) {} data))
+  (reduce-kv (fn [m k v] (assoc m (keyword (name namespace) (name k)) v)) {} data))
 
-(comment
-
-  (def foo {:bar/baz :qux})
-
-  (def bar {:baz :qux})
-
-  (add-namespace bar :bar)
-
-
-
-  (keyword (name :bar/baz))
-
-  )

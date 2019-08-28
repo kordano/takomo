@@ -17,17 +17,3 @@
 
 (defn get-conn []
   (:conn @state))
-
-
-(comment
-
-  (init)
-
-  (get-db)
-
-  (d/delete-database (:uri @state))
-
-  (takomo.store.customer/create-customer {:name "Foo"})
-
-  (let [{:keys [foo/bar]} {:foo/bar 2}]
-    bar))

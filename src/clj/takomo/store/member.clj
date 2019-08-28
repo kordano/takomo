@@ -46,3 +46,9 @@
 
 (defn delete-member [id]
   (d/transact (get-conn) [[:db/retractEntity id]]))
+
+
+(defn credentials-valid? [username password]
+  (if-let [member-password (:member/passhash (d/pull (get-db) '[:member/passhash] [:member/email username]))]
+    (= (h/b64-hash password) member-password)
+    (throw (ex-info "Invalid Credentials" {:username username :password password}))))

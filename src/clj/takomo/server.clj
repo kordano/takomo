@@ -28,6 +28,8 @@
              [prjct :as sp]]
             [org.httpkit.server :as kit]))
 
+(def secret (nonce/random-bytes 32))
+
 (defonce state (atom {:server nil}))
 
 (s/def ::path-params (s/keys :req-un [:takomo.model/id]))

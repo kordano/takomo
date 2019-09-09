@@ -3,55 +3,34 @@
             [ajax.core :refer [GET POST]]
             [cljs.reader :refer [read-string]]
             [takomo.components.dialog :refer [member-dialog]]
+            [takomo.components.members :refer [members-component]]
+            [secretary.core :as secretary :refer-macros [defroute]]
             ["@material-ui/core" :refer [Button Table Paper TableBody TableCell TableHead TableRow Typography Grid Fab]]
             ["@material-ui/icons" :refer [Add]]))
 
 (defonce state (r/atom {}))
 
-(def style
-  {:fab {:padding "8px 8px 8px 8px"
-         :position :absolute
-         :right "8px"
-         :bottom "8px"}})
 
-(defn members-table [members]
-  (let []
-    [:> Paper
-     [:> Grid {:container true
-               :direction :column}
+(def selected-page (r/atom members-component))
 
-      [:> Grid {:item true} [:> Typography {:className "title" :variant :h5} "Members"]]
-      [:> Grid {:item true}
-       [:> Table
-        [:> TableHead
-         [:> TableRow
-          [:> TableCell "ID"]
-          [:> TableCell "First Name"]
-          [:> TableCell "Last Name"]
-          [:> TableCell "Email"]]]
-        [:> TableBody
-         (map (fn  [{:keys [id firstname lastname email]}]
-                ^{:key id} [:> TableRow
-                            [:> TableCell id]
-                            [:> TableCell firstname]
-                            [:> TableCell lastname]
-                            [:> TableCell email]])
-              members)]]]]]))
-
-(defn simple-component [state]
+(defn login []
   [:div
-   (members-table (@state :members))
-   (member-dialog state)
-   [:> Fab {:size :medium :color :primary :style (:fab style) :onClick #(swap! state assoc-in [:dialogs :member :open?] true)} [:> Add]]])
+   [:h1 "LOGIN"]])
 
+(defn page []
+  [@selected-page state])
+
+(defroute "/" []
+  (reset! selected-page login))
+
+(defroute "/members" []
+  (reset! selected-page members-component))
+
+(defn mount-root []
+  (r/render [page] (.getElementById js/document "root")))
 
 (defn init []
-  (GET "http://localhost:3000/api/members" {:handler #(swap! state assoc :members (read-string (str %)))
-                                            :response-format :json
-                                            :keywords? true})
-  (r/render
-    [simple-component state]
-    (js/document.getElementById "root")))
+  (mount-root))
 
 
 (comment

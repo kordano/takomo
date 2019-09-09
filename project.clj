@@ -6,7 +6,6 @@
   :source-paths ["src/clj" "src/cljs"]
   :main takomo.core
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 #_[org.clojure/tools.reader "1.2.2"]
                  [io.replikativ/datahike "0.2.0"]
                  [buddy/buddy-auth "2.1.0"]
                  [io.replikativ/hasch "0.3.6-SNAPSHOT"]
@@ -14,5 +13,6 @@
                  [http-kit "2.3.0"]
                  [metosin/muuntaja "0.6.4"]
                  [clj-time "0.15.1"]
-                 [ring-cors "0.1.13"]]
+                 [ring-cors "0.1.13"]
+                 [mount "0.1.16"]]
   :repl-options {:init-ns takomo.core})

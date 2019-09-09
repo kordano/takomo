@@ -1,6 +1,6 @@
 (ns takomo.store.document
   (:require [datahike.api :as d]
-            [takomo.store :refer [get-db get-conn]]
+            [takomo.store :refer [get-db conn]]
             [takomo.utils :as tu]
             [clj-time.core :as t]
             [hasch.core :as h]))
@@ -13,7 +13,7 @@
       (select-keys document-keys)))
 
 (defn create-document [document]
-  (d/transact (get-conn) [(pre-process document)]))
+  (d/transact conn [(pre-process document)]))
 
 (defn post-process [doc]
   (-> doc
@@ -24,11 +24,11 @@
   (->>
    (d/q '[:find [(pull ?e [*])]
           :where [?e :document/reference ?r]]
-        (get-db))
+        @conn)
    (mapv post-process)))
 
 (defn read-document-by-id [id]
-  (-> (get-db)
+  (-> @conn
       (d/pull '[*] id)
       post-process))
 
@@ -38,10 +38,9 @@
 (defn update-document [{:keys [:db/id] :as document}]
   (if-not id
     (throw (ex-info "id should not be nil" {:db/id id}))
-    (d/transact (get-conn) [(-> document
-                                pre-process
-                                (assoc :db/id id))])))
+    (d/transact conn [(-> document
+                          pre-process
+                          (assoc :db/id id))])))
 
 (defn delete-document [id]
-  (d/transact (get-conn) [[:db/retractEntity id]]))
-
+  (d/transact conn [[:db/retractEntity id]]))

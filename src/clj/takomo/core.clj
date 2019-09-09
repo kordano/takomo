@@ -1,17 +1,11 @@
 (ns takomo.core
-  (:require [takomo.store :as store]
-            [takomo.server :as server]))
+  (:require [mount.core :as mount]))
 
 (defn -main [& args]
-  (println "Starting server!")
-  (store/init)
-  (server/start-server))
+  (mount/start))
 
 (comment
 
-  (server/stop-server)
+  (mount/start)
 
-  (-main)
-
-
-  )
+  (-main))

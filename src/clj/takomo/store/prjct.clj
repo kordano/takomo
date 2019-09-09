@@ -2,7 +2,7 @@
   (:require [datahike.api :as d]
             [datahike.core :as dc]
             [clojure.string :refer [split upper-case join]]
-            [takomo.store :refer [get-db get-conn]]
+            [takomo.store :refer [get-db conn]]
             [takomo.utils :as tu]))
 
 (def project-initial-keys
@@ -21,7 +21,7 @@
                             (map (comp first upper-case))
                             (apply str)))
            i 1]
-      (if-not (dc/entid (get-db) [:project/reference reference])
+      (if-not (dc/entid @conn [:project/reference reference])
         reference
         (recur (if (< (count title-letters) 2)
                  (-> (str (first title) (last title))
@@ -39,9 +39,8 @@
       (assoc :project/reference (create-reference title))
       (update :project/rate long)))
 
-
 (defn create-project [project]
-  (d/transact (get-conn) [(pre-process project)]))
+  (d/transact conn [(pre-process project)]))
 
 (defn post-process [project]
   (-> project
@@ -51,14 +50,14 @@
       tu/remove-namespace))
 
 (defn read-projects []
-  (->> (get-db)
+  (->> @conn
        (d/q '[:find [(pull ?e [*]) ...]
               :where
               [?e :project/reference ?r]])
        (mapv post-process)))
 
 (defn read-project-by-id [id]
-  (-> (get-db)
+  (-> @conn
       (d/pull '[*] id)
       post-process))
 
@@ -68,9 +67,8 @@
 (defn update-project [{:keys [db/id] :as project}]
   (if-not id
     (throw (ex-info "id should not be nil" project))
-    (d/transact (get-conn) [(select-keys project (-> (concat project-initial-keys project-optional-keys)
-                                                     (conj :db/id)))])))
+    (d/transact conn [(select-keys project (-> (concat project-initial-keys project-optional-keys)
+                                               (conj :db/id)))])))
 
 (defn delete-project [id]
-  (d/transact (get-conn) [[:db/retractEntity id]]))
-
+  (d/transact conn [[:db/retractEntity id]]))

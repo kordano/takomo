@@ -1,6 +1,6 @@
 (ns takomo.store.task
   (:require [datahike.api :as d]
-            [takomo.store :refer [get-conn get-db]]
+            [takomo.store :refer [conn]]
             [takomo.utils :as tu]
             [clj-time.core :as t]
             [hasch.core :as h]))
@@ -17,9 +17,9 @@
       tu/remove-namespace))
 
 (defn create-task [task]
-  (d/transact (get-conn) [(-> task
-                              (select-keys task-keys)
-                              pre-process)]))
+  (d/transact conn [(-> task
+                        (select-keys task-keys)
+                        pre-process)]))
 
 (defn post-process [task]
   (-> task
@@ -28,14 +28,14 @@
       tu/remove-namespace))
 
 (defn read-tasks []
-  (->> (get-db)
+  (->> @conn
        (d/q '[:find [(pull ?e [*]) ...]
               :where
               [?e :task/title ?t]])
        (mapv post-process)))
 
 (defn read-task-by-id [id]
-  (-> (get-db)
+  (-> @conn
       (d/pull  '[*] id)
       post-process))
 
@@ -45,7 +45,7 @@
 (defn update-task [{:keys [db/id] :as task}]
   (if-not id
     (throw (ex-info "Id should not be nil" task))
-    (d/transact (get-conn) [(select-keys task (conj task-keys :db/id))])))
+    (d/transact conn [(select-keys task (conj task-keys :db/id))])))
 
 (defn delete-task [id]
-  (d/transact (get-conn) [[:db/retractEntity id]]))
+  (d/transact conn [[:db/retractEntity id]]))

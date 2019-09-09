@@ -1,6 +1,6 @@
 (ns takomo.store.customer
   (:require [datahike.api :as d]
-            [takomo.store :refer [get-db get-conn]]
+            [takomo.store :refer [conn]]
             [takomo.utils :refer [add-namespace remove-namespace]]))
 
 (def customer-keys [:customer/name
@@ -22,16 +22,16 @@
       remove-namespace))
 
 (defn create-customer [new-customer]
-  (d/transact (get-conn) [(pre-process new-customer)]))
+  (d/transact conn [(pre-process new-customer)]))
 
 (defn read-customers []
-  (->> (get-db)
+  (->> @conn
        (d/q '[:find [(pull ?e [:db/id :customer/name :customer/contact :customer/department :customer/postal :customer/city :customer/street :customer/postal :customer/country]) ...]
               :where [?e :customer/name ?name]])
        (mapv post-process)))
 
 (defn read-customer-by-id [id]
-  (-> (get-db)
+  (-> @conn
       (d/pull '[:db/id :customer/name
                 :customer/contact
                 :customer/department
@@ -48,9 +48,9 @@
 (defn update-customer [{:keys [:db/id] :as customer}]
   (if-not id
     (throw (ex-info "id should not be nil" {:db/id id}))
-    (d/transact (get-conn) [(-> customer
-                                pre-process
-                                (assoc :db/id id))])))
+    (d/transact conn [(-> customer
+                          pre-process
+                          (assoc :db/id id))])))
 
 (defn delete-customer [id]
-  (d/transact (get-conn) [[:db/retractEntity id]]))
+  (d/transact conn [[:db/retractEntity id]]))

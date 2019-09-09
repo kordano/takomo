@@ -18,6 +18,7 @@
             [buddy.auth :refer [authenticated? throw-unauthorized]]
             [buddy.auth.backends.token :refer [jwe-backend]]
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
+            [mount.core :refer [defstate]]
             [takomo.model]
             [takomo.store
              [customer :as sc]
@@ -70,8 +71,8 @@
                 :parameters {:body :takomo.model/credentials}
                 :swagger {:tags ["self-service"]}
                 :handler (fn [req]
-                           (let [username (-> req body :username) 
-                                 password (-> req body :password) 
+                           (let [username (-> req body :username)
+                                 password (-> req body :password)
                                  valid? (sm/credentials-valid? username password)]
                              (if valid?
                                (let [claims {:user (keyword username)
@@ -233,19 +234,6 @@
    (wrap-cors :access-control-allow-origin [#"http://localhost" #"http://localhost:8080"]
               :access-control-allow-methods [:get :put :post :delete])))
 
-(defn start-server []
-  (swap! state assoc :server (kit/run-server app {:port 3000})))
-
-(defn stop-server []
-  ((:server @state))
-  (swap! state assoc :server nil))
-
-
-(comment
-
-  (start-server)
-
-  (stop-server)
-
-
-  )
+(defstate server
+  :start (kit/run-server app {:port 3000})
+  :stop (server))

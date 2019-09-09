@@ -2,7 +2,7 @@
   (:require [datahike.api :as d]
             [datahike.core :as dc]
             [clojure.string :refer [split upper-case join]]
-            [takomo.store :refer [get-db conn]]
+            [takomo.store :refer [conn]]
             [takomo.utils :as tu]))
 
 (def project-initial-keys

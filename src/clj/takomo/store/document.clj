@@ -1,6 +1,6 @@
 (ns takomo.store.document
   (:require [datahike.api :as d]
-            [takomo.store :refer [get-db conn]]
+            [takomo.store :refer [conn]]
             [takomo.utils :as tu]
             [clj-time.core :as t]
             [hasch.core :as h]))

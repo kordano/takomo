@@ -8,4 +8,6 @@
 
   (mount/start)
 
+  (mount/stop)
+
   (-main))

@@ -2,7 +2,7 @@
   (:require [datahike.api :as d]
             [hasch.core :as h]
             [takomo.utils :as tu]
-            [takomo.store :refer [get-db conn]]))
+            [takomo.store :refer [conn]]))
 
 (def member-keys [:member/firstname :member/lastname :member/email :member/role])
 

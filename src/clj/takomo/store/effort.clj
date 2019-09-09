@@ -1,6 +1,6 @@
 (ns takomo.store.effort
   (:require [datahike.api :as d]
-            [takomo.store :refer [get-db conn]]
+            [takomo.store :refer [conn]]
             [takomo.utils :as tu]))
 
 (def effort-keys [:effort/startDate :effort/reference :effort/endDate :effort/description :effort/task :effort/assignee])

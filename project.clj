@@ -3,10 +3,10 @@
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
             :url "https://www.eclipse.org/legal/epl-2.0/"}
-  :source-paths ["src/clj" "src/cljs"]
+  :source-paths ["src/clj" "src/cljs" "test/clj" "test/cljs"]
   :main takomo.core
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [io.replikativ/datahike "0.2.0"]
+                 [io.replikativ/datahike "0.2.1-SNAPSHOT"]
                  [buddy/buddy-auth "2.1.0"]
                  [io.replikativ/hasch "0.3.6-SNAPSHOT"]
                  [metosin/reitit "0.3.9"]

@@ -59,7 +59,7 @@
        {:get {:no-doc true
               :swagger {:info {:title "Takomo API"
                                :description "Part of CARD stack"}
-                        :securityDefinitions {:Bearer {:type "apiKey" :name "Authorization" :in "header"}}}
+                        :securityDefinitions {:JWT {:type "apiKey" :name "Authorization" :in "header"}}}
               :handler (swagger/create-swagger-handler)}}]
 
       ["/api"

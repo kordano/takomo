@@ -1,8 +1,12 @@
 (ns takomo.core
-  (:require [mount.core :as mount]))
+  (:gen-class)
+  (:require [mount.core :as mount]
+            [takomo
+             store
+             server]))
 
 (defn -main [& args]
-  (mount/start))
+  (println (mount/start)))
 
 (comment
 

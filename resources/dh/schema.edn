@@ -150,9 +150,8 @@
   :db/unique :db.unique/identity
   :db/index true}
 
- {:member/passhash "jGsOQw4P7e2Fq+4dkny5Qho02zptOj6r3wHV4yxNr6HdkKVIm5LYDU9mRfbgB3+3lw+90VZ/XVEXGsUhEDbK7g=="
+ {:member/passhash "UQxKIMw/ZQtmtjz9Ql0/Tgdr3/poSYlXYfqrZ3pTw5xcb0g2rLtyl/LZ7uswwQh9M0STQ4D6woAcfLPFC1T6CA=="
   :member/email "admin@takomo.eu"
   :member/firstname "Admin"
   :member/lastname ""
-  :member/salt "123"}
- ]
+  :member/salt "123"}]

@@ -67,6 +67,8 @@
               :response-format :json
               :format :json
               :headers {"Authorization" (str "Token " (-> @state :credentials :token))}
-              :params  input
+              :params  (if (:password input)
+                         input
+                         (dissoc input :password))
               :keywords? true}))}
       "Save"]]))

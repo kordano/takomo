@@ -20,19 +20,19 @@
 (def selected-page (r/atom home-page))
 
 (defn page []
-  [:div.columns
-   [:div.column.is-one-fifth
+  (if-not (-> @state :credentials :token)
     [:section.section
-     [menu state]]]
-   [:div.column
-    [:section.section
-     [@selected-page state]]]])
+     [login-page state]]
+    [:div.columns
+     [:div.column.is-one-fifth
+      [:section.section
+       [menu state]]]
+     [:div.column
+      [:section.section
+       [@selected-page state]]]]))
 
 (defroute "/" []
   (reset! selected-page home-page))
-
-(defroute "/login" []
-  (reset! selected-page login-page))
 
 (defroute "/members" []
   (reset! selected-page members-page))

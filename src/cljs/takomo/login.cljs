@@ -5,8 +5,8 @@
             [ajax.core :refer [POST]]))
 
 (defn login-page [state]
-  [:div.container
-   [:h1.title "Login"]
+  [:div.container.is-half
+   [:h1.title "Welcome to TAKOMO"]
    [:p.subtitle "Please enter your credentials"]
    [field state :login :email :email "Email" "e.g. alice@umbrella.corp"]
    [field state :login :password :password "Password" "aliceisawesome!1"]

@@ -13,8 +13,7 @@
   "author": "lambdaforge UG (haftungsbeschränkt)",
   "license": "ISC",
   "dependencies": {
-    "@material-ui/core": "^4.2.1",
-    "@material-ui/icons": "^4.2.1",
+    "bulma": "^0.7.5",
     "create-react-class": "^15.6.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"

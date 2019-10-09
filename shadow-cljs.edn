@@ -5,12 +5,13 @@
 
  :dependencies [[reagent "0.8.1" exclusions [cljsjs/react cljsjs/react-dom]]
                 [clj-commons/secretary "1.2.4"]
+                [venantius/accountant "0.2.4"]
                 [cljs-ajax "0.8.0"]]
 
 :builds
  {:dev
   {:target :browser
-   :modules {:main {:init-fn takomo.core/init}}
+   :modules {:main {:init-fn takomo.core/init!}}
    :output-dir "resources/public/js"
    :asset-path "/js"
    :devtools

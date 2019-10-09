@@ -22,7 +22,7 @@
          [:tr [:th "ID"] [:th "Firstname"] [:th "Lastname"] [:th "Email"] [:th ""]]]
         [:tbody
          (map (fn [{:keys [id email firstname lastname] :as member}]
-                [:tr
+                [:tr {:key id}
                  [:td [:a {:on-click (fn []
                                        (swap! state assoc-in [:selected-member] member)
                                        (swap! state assoc-in [:inputs :selected-member] member)

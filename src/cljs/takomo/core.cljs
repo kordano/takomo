@@ -3,6 +3,7 @@
             [takomo.home :refer [home-page]]
             [takomo.menu :refer [menu]]
             [takomo.member :refer [members-page member-page new-member-page]]
+            [takomo.customer :refer [new-customer-page customers-page customer-page]]
             [takomo.login :refer [login-page]]
             [accountant.core :as accountant]
             [secretary.core :as secretary :refer-macros [defroute]]
@@ -41,6 +42,15 @@
 
 (defroute "/new-member" []
   (reset! selected-page new-member-page))
+
+(defroute "/customers" []
+  (reset! selected-page customers-page))
+
+(defroute "/customer" []
+  (reset! selected-page customer-page))
+
+(defroute "/new-customer" []
+  (reset! selected-page new-customer-page))
 
 (defn hook-browser-navigation! []
   (doto (History.)

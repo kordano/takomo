@@ -126,7 +126,7 @@
                   :swagger {:tags ["customer"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (sc/delete-customer id)
-                                {:status 200})}}]
+                                (ok {}))}}]
 
        ["/documents" {:get {:responses {200 {:body :takomo.model/documents}}
                             :swagger {:tags ["document"]}
@@ -138,7 +138,7 @@
                   :swagger {:tags ["document"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (sd/delete-document id)
-                                {:status 200})}}]
+                                (ok {}))}}]
 
        ["/tasks" {:get {:responses {200 {:body :takomo.model/tasks}}
                         :swagger {:tags ["task"]}
@@ -149,7 +149,7 @@
                          :swagger {:tags ["task"]}
                          :handler (fn [{{new-task :body} :parameters}]
                                     (st/create-task new-task)
-                                    {:status 200})}}]
+                                    (ok {}))}}]
        ["/tasks/:id"
         {:put    {:parameters {:body :takomo.model/task
                                :path ::path-params}
@@ -157,12 +157,12 @@
                   :swagger {:tags ["task"]}
                   :handler    (fn [{{updated-task :body {:keys [id]} :path} :parameters}]
                                 (st/update-task (assoc updated-task :db/id id))
-                                {:status 200})}
+                                (ok {}))}
          :delete {:parameters {:path ::path-params}
                   :swagger {:tags ["task"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (st/delete-task id)
-                                {:status 200})}}]
+                                (ok {}))}}]
        ["/efforts" {:get {:responses {200 {:body :takomo.model/efforts}}
                           :swagger {:tags ["effort"]}
                           :handler (fn [req]
@@ -172,7 +172,7 @@
                            :swagger {:tags ["effort"]}
                            :handler (fn [{{new-effort :body} :parameters}]
                                       (se/create-effort new-effort)
-                                      {:status 200})}}]
+                                      (ok {}))}}]
        ["/efforts/:id"
         {:put    {:parameters {:body :takomo.model/new-effort
                                :path ::path-params}
@@ -180,12 +180,12 @@
                   :swagger {:tags ["effort"]}
                   :handler    (fn [{{updated-effort :body {:keys [id]} :path} :parameters}]
                                 (se/update-effort (assoc updated-effort :db/id id))
-                                {:status 200})}
+                                (ok {}))}
          :delete {:parameters {:path ::path-params}
                   :swagger {:tags ["effort"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (se/delete-effort id)
-                                {:status 200})}}]
+                                (ok {}))}}]
 
        ["/projects" {:get {:responses {200 {:body :takomo.model/projects}}
                            :swagger {:tags ["project"]}
@@ -196,7 +196,7 @@
                             :swagger {:tags ["project"]}
                             :handler (fn [{{new-project :body} :parameters}]
                                        (sp/create-project new-project)
-                                       {:status 200})}}]
+                                       (ok {}))}}]
        ["/projects/:id"
         {:put    {:parameters {:body :takomo.model/new-project
                                :path ::path-params}
@@ -204,12 +204,12 @@
                   :swagger {:tags ["project"]}
                   :handler    (fn [{{updated-project :body {:keys [id]} :path} :parameters}]
                                 (sp/update-project (assoc updated-project :db/id id))
-                                {:status 200})}
+                                (ok {}))}
          :delete {:parameters {:path ::path-params}
                   :swagger {:tags ["project"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (sp/delete-project id)
-                                {:status 200})}}]]]
+                                (ok {}))}}]]]
 
      {:data {:coercion reitit.coercion.spec/coercion
              :muuntaja m/instance

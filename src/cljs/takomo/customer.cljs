@@ -1,41 +1,28 @@
 (ns takomo.customer
   (:require [ajax.core :refer [GET PUT DELETE POST]]
             [takomo.components :refer [field]]
+            [takomo.pages.templates :refer [creation-template]]
             [accountant.core :as acc]
             [cljs.reader :refer [read-string]]))
 
 (defn new-customer-page [state]
-  (let [input (-> @state :inputs :new-customer)]
-    [:div.container
-     [:h1.title "Create new customer"]
-     [field state :new-customer :text :name "Name" "e.g. Umbrella Corp"]
-     [field state :new-customer :text :contact "Contact" "e.g. Wesker"]
-     [field state :new-customer :text :department "Department" "e.g. R&D"]
-     [field state :new-customer :text :city "City" "e.g. Racoon City"]
-     [field state :new-customer :text :street "Street" "e.g. Main Avenue 42"]
-     [field state :new-customer :text :postal "Postal" "e.g. 3210"]
-     [field state :new-customer :text :country "Country" "e.g. USA"]
-     [:a.button.is-primary
-      {:on-click
-       (fn []
-         (POST "http://localhost:3000/api/customers"
-               {:handler (fn []
-                           (swap! state update-in [:notifications] conj "Customer created!")
-                           (swap! state assoc-in [:inputs :new-customer] nil))
-                :error-handler #(js/alert (read-string (str %)))
-                :response-format :json
-                :format :json
-                :headers {"Authorization" (str "Token " (-> @state :credentials :token))}
-                :params input
-                :keywords? true}))}
-      "Create"]]))
+  [creation-template
+   state
+   {:name [:text "Name" "e.g. Umbrella Corp"]
+    :contact [:text "Contact" "e.g. Wesker"]
+    :department [:text "Department" "e.g. R&D"]
+    :city [:text "City" "e.g. Racoon City"]
+    :street [:text "Street" "e.g. Main Avenue 42"]
+    :postal [:text "Postal" "e.g. 3210"]
+    :country [:text "Country" "e.g. USA"]}
+   "customer"])
 
 (defn customers-page [state]
   (letfn [(get-customers [] (GET "http://localhost:3000/api/customers"
-                            {:handler #(swap! state assoc :customers (read-string (str %)))
-                             :response-format :json
-                             :headers {"Authorization" (str "Token " (-> @state :credentials :token))}
-                             :keywords? true}))]
+                                 {:handler #(swap! state assoc :customers (read-string (str %)))
+                                  :response-format :json
+                                  :headers {"Authorization" (str "Token " (-> @state :credentials :token))}
+                                  :keywords? true}))]
     (get-customers)
     (fn []
       [:div.container

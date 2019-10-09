@@ -1,16 +1,16 @@
 (ns takomo.components)
 
-(defn field [state page input-type input-name label placeholder]
-  [:div.field
+(defn field [state input-type input-name label placeholder]
+  [:div.field {:key input-name}
      [:label.label label]
    [:div.control
     [:input.input
      {:type input-type
-      :autocomplete "new-password"
+      :autoComplete "new-password"
       :placeholder placeholder
       :on-change (fn [e]
                    (swap! state
                           assoc-in
-                          [:inputs page input-name]
+                          [input-name]
                           (.-value (.-target e))))
-      :value (-> @state :inputs page input-name)}]]])
+      :value (-> @state input-name)}]]])

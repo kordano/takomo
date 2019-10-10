@@ -1,4 +1,4 @@
-(ns takomo.customer
+(ns takomo.pages.customer
   (:require [ajax.core :refer [GET PUT DELETE POST]]
             [takomo.components :refer [field]]
             [takomo.pages.templates :refer [creation-template overview-template details-template]]

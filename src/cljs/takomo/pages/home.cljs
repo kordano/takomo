@@ -1,4 +1,4 @@
-(ns takomo.home)
+(ns takomo.pages.home)
 
 (defn home-page []
   [:div.container

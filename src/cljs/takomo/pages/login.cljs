@@ -1,4 +1,4 @@
-(ns takomo.login
+(ns takomo.pages.login
   (:require [reagent.core :as r]
             [takomo.components :refer [field]]
             [cljs.reader :refer [read-string]]

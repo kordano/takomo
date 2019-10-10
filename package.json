@@ -8,13 +8,16 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-build": "node-sass --omit-source-map-url sass/custom.scss resources/public/css/custom.css",
+    "css-watch": "npm run css-build -- --watch"
   },
   "author": "lambdaforge UG (haftungsbeschränkt)",
   "license": "ISC",
   "dependencies": {
     "bulma": "^0.7.5",
     "create-react-class": "^15.6.3",
+    "node-sass": "4.12.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6"
   },

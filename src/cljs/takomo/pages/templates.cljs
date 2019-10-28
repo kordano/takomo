@@ -1,7 +1,7 @@
 (ns takomo.pages.templates
   (:require [reagent.core :as r]
             [takomo.network :as net]
-            [takomo.components :refer [field]]
+            [takomo.components :refer [field select id-select]]
             [accountant.core :as acc]
             [cljs.reader :refer [read-string]]))
 
@@ -11,13 +11,16 @@
     [:div.container
      [:h1.title (str "Create new " capitalized)]
      (map 
-      (fn [[k [input-type label placeholder]]]
-        [field inputs input-type k label placeholder])
+      (fn [[k {:keys [input-type label placeholder allowed-values]}]]
+        (case input-type
+          :select [select inputs k label placeholder allowed-values]
+          :id-select [id-select inputs k label placeholder allowed-values]
+          [field inputs input-type k label placeholder]))
       input-keys)
      [:a.button.is-primary
       {:on-click
        (fn []
-         (net/api-post 
+         (net/api-post
             state 
             (str model "s") 
             @inputs 

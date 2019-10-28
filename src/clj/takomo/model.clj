@@ -15,8 +15,10 @@
 (s/def :member/salt string?)
 (s/def :member/passhash string?)
 (s/def :member/password string?)
-(s/def ::member (s/keys :opt-un [:db/id :member/firstname :member/lastname :member/email :member/password]))
-(s/def ::new-member (s/keys :opt-un [:member/firstname :member/lastname :member/email :member/password]))
+(s/def :member/role #{:admin :manager :employee :guest})
+(s/def :new-member/role #{"admin" "manager" "employee" "guest"})
+(s/def ::member (s/keys :opt-un [:db/id :member/firstname :member/lastname :member/email :member/password :member/role]))
+(s/def ::new-member (s/keys :opt-un [:member/firstname :member/lastname :member/email :member/password :new-member/role]))
 (s/def ::members (s/coll-of ::member))
 
 (s/def :customer/name string?)

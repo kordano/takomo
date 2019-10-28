@@ -5,6 +5,7 @@
             [takomo.pages.member :refer [members-page member-page new-member-page]]
             [takomo.pages.customer :refer [new-customer-page customers-page customer-page]]
             [takomo.pages.login :refer [login-page]]
+            [takomo.pages.prjct :refer [new-project-page]]
             [accountant.core :as accountant]
             [secretary.core :as secretary :refer-macros [defroute]]
             [goog.events :as events]
@@ -52,6 +53,9 @@
 (defroute "/new-customer" []
   (reset! selected-page new-customer-page))
 
+(defroute "/new-project" []
+  (reset! selected-page new-project-page))
+
 (defn hook-browser-navigation! []
   (doto (History.)
         (events/listen
@@ -82,5 +86,7 @@
   @state
 
   (init!)
+
+  (takomo.pages.prjct/input-keys state)
 
   )

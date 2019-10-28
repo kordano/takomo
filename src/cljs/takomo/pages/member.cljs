@@ -1,15 +1,23 @@
 (ns takomo.pages.member
-  (:require [ajax.core :refer [GET PUT DELETE POST]]
-            [takomo.pages.templates :refer [creation-template overview-template details-template]]
-            [takomo.components :refer [field]]
-            [accountant.core :as acc]
-            [cljs.reader :refer [read-string]]))
+  (:require [takomo.pages.templates :refer [creation-template overview-template details-template]]))
 
 (def input-keys
- {:firstname [:text "Firstname" "e.g. Alice"]
-  :lastname [:text "Lastname" "e.g. Abernathy"]
-  :email [:email "Email" "e.g. alice@umbrella.corp"]
-  :password [:password "Password" "e.g. alicerocks!1"]} )
+  {:firstname {:input-type :text
+               :label "Firstname"
+               :placeholder "e.g. Max"}
+   :lastname {:input-type :text
+              :label "Lastname"
+              :placeholder "e.g. Mustermann"}
+   :email {:input-type :email
+           :label "Email"
+           :placeholder "e.g. m.mustermann@musterfirma.de"}
+   :password {:input-type :password
+              :label "Password"
+              :placeholder "e.g. nichtsehrsicher"}
+   :role {:input-type :select
+          :label "Role"
+          :placeholder "Select role"
+          :allowed-values [ "guest" "employee" "manager" "admin"]}})
 
 (defn new-member-page [state]
   [creation-template
@@ -23,7 +31,8 @@
    "member"
    {:firstname "Firstname"
     :lastname "Lastname"
-    :email "Email"}])
+    :email "Email"
+    :role "Role"}])
 
 (defn member-page [state]
   [details-template

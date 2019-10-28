@@ -1,18 +1,28 @@
 (ns takomo.pages.customer
-  (:require [ajax.core :refer [GET PUT DELETE POST]]
-            [takomo.components :refer [field]]
-            [takomo.pages.templates :refer [creation-template overview-template details-template]]
-            [accountant.core :as acc]
-            [cljs.reader :refer [read-string]]))
+  (:require [takomo.pages.templates :refer [creation-template overview-template details-template]]))
 
 (def input-data 
-   {:name [:text "Name" "e.g. Umbrella Corp"]
-    :contact [:text "Contact" "e.g. Wesker"]
-    :department [:text "Department" "e.g. R&D"]
-    :city [:text "City" "e.g. Racoon City"]
-    :street [:text "Street" "e.g. Main Avenue 42"]
-    :postal [:text "Postal" "e.g. 3210"]
-    :country [:text "Country" "e.g. USA"]})
+  {:name {:input-type :text
+          :label "Name"
+          :placeholder "e.g. Musterfirma"}
+   :contact {:input-type :text
+             :label "Contact"
+             :placeholder "e.g. Erika Musterfrau"}
+   :department {:input-type :text
+                :label "Department"
+                :placeholder "e.g. R&D"}
+   :city {:input-type :text
+          :label "City"
+          :placeholder "e.g. Musterstadt"}
+   :street {:input-type :text
+            :label "Street"
+            :placeholder "e.g. Haupststrasse 42"}
+   :postal {:input-type :text
+            :label "Postal"
+            :placeholder "e.g. 1234"}
+   :country {:input-type :text
+             :label "Country"
+             :placeholder "e.g. Germany"}})
 
 (defn new-customer-page [state]
   [creation-template

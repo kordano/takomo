@@ -15,6 +15,9 @@
     [:ul.menu-list
      [:li [:a {:on-click #(acc/navigate! "/customers")} "Overview"]]
      [:li [:a {:on-click #(acc/navigate! "/new-customer")} "Create new customer"]]]
+    [:p.menu-label "Projects"]
+    [:ul.menu-list
+     [:li [:a {:on-click #(acc/navigate! "/new-project")} "Create new project"]]]
     [:p.menu-label ""]
     [:ul.menu-list
      [:li

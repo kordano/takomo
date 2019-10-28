@@ -9,6 +9,7 @@
 (defn pre-process [member]
   (-> member
       (tu/add-namespace :member)
+      (update :member/role (fn [old] (keyword "member" old)))
       (select-keys member-keys)
       (merge
        {:member/salt     "123"
@@ -16,6 +17,7 @@
 
 (defn post-process [member]
   (-> member
+      (update :member/role #(-> % :db/ident name keyword))
       tu/remove-namespace))
 
 (defn create-member [member]
@@ -23,7 +25,7 @@
 
 (defn read-members []
   (->> @conn
-       (d/q '[:find [(pull ?e [:db/id :member/firstname :member/lastname :member/email]) ...]
+       (d/q '[:find [(pull ?e [:db/id :member/firstname :member/lastname :member/email {:member/role [:db/ident]}]) ...]
               :where [?e :member/email ?email]])
        (mapv post-process)))
 

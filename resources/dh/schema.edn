@@ -11,7 +11,7 @@
   :db/unique :db.unique/identity
   :db/index true}
  {:db/ident :member/role
-  :db/valueType :db.type/keyword
+  :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
  {:db/ident :member/salt
   :db/valueType :db.type/string
@@ -19,6 +19,11 @@
  {:db/ident :member/passhash
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
+
+ {:db/ident :member/admin}
+ {:db/ident :member/manager}
+ {:db/ident :member/employee}
+ {:db/ident :member/guest}
 
  ;; customer
  {:db/ident :customer/name
@@ -154,4 +159,5 @@
   :member/email "admin@takomo.eu"
   :member/firstname "Admin"
   :member/lastname ""
-  :member/salt "123"}]
+  :member/salt "123"
+  :member/role :member/admin}]

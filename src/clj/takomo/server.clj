@@ -1,6 +1,5 @@
 (ns takomo.server
-  (:require [reitit.http :as http]
-            [reitit.ring :as ring]
+  (:require [reitit.ring :as ring]
             [muuntaja.core :as m]
             [reitit.swagger :as swagger]
             [reitit.swagger-ui :as swagger-ui]
@@ -10,7 +9,6 @@
             [reitit.ring.middleware.parameters :as parameters]
             [reitit.ring.middleware.muuntaja :as muuntaja]
             [reitit.interceptor.sieppari :as sieppari]
-            [reitit.ring.coercion :as rrc]
             [ring.middleware.cors :refer [wrap-cors]]
             [clojure.spec.alpha :as s]
             [buddy.sign.jwt :as jwt]

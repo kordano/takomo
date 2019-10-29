@@ -10,39 +10,40 @@
    :description {:input-type :text
                  :label "Description"
                  :placeholder "e.g. App-Development"}
-   :responsible {:input-type :id-select
+   :responsible {:input-type :select
                  :label "Responsible"
                  :allowed-values (mapv
                                   (fn [{:keys [id firstname lastname]}]
-                                    [id (str firstname " " lastname)])
+                                    {:id id :label (str firstname " " lastname)})
                                   (:members @state))}
    :startDate {:input-type :date
-               :label "Start date"
-               :placeholder "e.g. 1.1.2020"}
+               :label "Start date"}
    :endDate {:input-type :date
              :label "End date"
              :placeholder "e.g. 1.2.2020"}
-   :acceptedAt {:input :date
+   :acceptedAt {:input-type :date
                 :label "Accepted at"
                 :placeholder "e.g. 1.11.2019"}
-   :customer {:input-type :id-select
+   :customer {:input-type :select
               :label "Customer"
               :allowed-values (mapv
                                (fn [{:keys [id name]}]
-                                 [id name])
+                                 {:label name :id id})
                                (:customers @state))}
-   :members {:input-type :id-select
+   :members {:input-type :multi-select
              :label "Members"
              :allowed-values (mapv
                                   (fn [{:keys [id firstname lastname]}]
-                                    [id (str firstname " " lastname)])
+                                    {:id id :label (str firstname " " lastname)})
                                   (:members @state))}
    :rate {:input-type :number
           :label "Rate"
           :placeholder "100"}
    :unit {:input-type :select
           :label "Rate unit"
-          :allowed-values ["day" "month" "year"]}})
+          :allowed-values [{:id "day" :label "Day"}
+                           {:id "month" :label "Month"}
+                           {:id "year" :label "Year"}]}})
 
 (defn new-project-page [state]
   (net/api-get state
@@ -56,6 +57,5 @@
   [creation-template
    state
    "project"
-   (input-keys state)
-   ])
+   (input-keys state)])
 

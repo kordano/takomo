@@ -1,7 +1,7 @@
 (ns takomo.pages.templates
   (:require [reagent.core :as r]
             [takomo.network :as net]
-            [takomo.components :refer [field select id-select]]
+            [takomo.components :refer [field select multi-select]]
             [accountant.core :as acc]
             [cljs.reader :refer [read-string]]))
 
@@ -13,20 +13,21 @@
      (map 
       (fn [[k {:keys [input-type label placeholder allowed-values]}]]
         (case input-type
-          :select [select inputs k label placeholder allowed-values]
-          :id-select [id-select inputs k label placeholder allowed-values]
+          :select [select inputs k label allowed-values]
+          :multi-select [multi-select inputs k label allowed-values]
           [field inputs input-type k label placeholder]))
       input-keys)
      [:a.button.is-primary
       {:on-click
-       (fn []
+       #(js/alert @inputs)
+       #_(fn []
          (net/api-post
-            state 
-            (str model "s") 
-            @inputs 
-            (fn []
-              (swap! state update-in [:notifications] conj (str capitalized  " created!"))
-              (reset! inputs nil))))}
+          state 
+          (str model "s") 
+          @inputs 
+          (fn []
+            (swap! state update-in [:notifications] conj (str capitalized  " created!"))
+            (reset! inputs nil))))}
       "Create"]]))
 
 

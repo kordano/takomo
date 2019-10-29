@@ -17,7 +17,10 @@
    :role {:input-type :select
           :label "Role"
           :placeholder "Select role"
-          :allowed-values [ "guest" "employee" "manager" "admin"]}})
+          :allowed-values [{:label "guest" :id "guest"} 
+                           {:label "employee" :id "employee"}
+                           {:label "manager" :id "manager"}
+                           {:label "admin" :id "admin"}]}})
 
 (defn new-member-page [state]
   [creation-template

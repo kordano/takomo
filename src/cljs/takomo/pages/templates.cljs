@@ -19,8 +19,8 @@
       input-keys)
      [:a.button.is-primary
       {:on-click
-       #(js/alert @inputs)
-       #_(fn []
+       #_#(js/alert @inputs)
+       (fn []
          (net/api-post
           state 
           (str model "s") 

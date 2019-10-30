@@ -8,7 +8,10 @@
      {:type input-type
       :autoComplete "new-password"
       :placeholder placeholder
-      :on-change (fn [e] (swap! state assoc-in [input-name] (.. e -target -value)))
+      :on-change (fn [e] (swap! state assoc-in [input-name] (let [val (.. e -target -value)]
+                                                              (case input-type
+                                                                :number (int val)
+                                                                val))))
       :value (get @state input-name)}]]])
 
 (defn select [state input-name label allowed-values]
@@ -16,10 +19,12 @@
    [:label.label label]
    [:div.select
     [:select
-     {:on-change #(swap! state assoc input-name (.. % -target -value))}
+     [:option "Please select"]
      (map
       (fn [{:keys [id label]}]
-        [:option {:value id} label])
+        [:option {:value id
+                  :on-click (fn [e]
+                             (swap! state assoc input-name id))} label])
       allowed-values)]]])
 
 
@@ -34,6 +39,6 @@
                  :on-click (fn [e]
                              (swap! state update input-name 
                                     (fn [old] (if old
-                                                (conj old (.. e -target -value))
-                                                [(.. e -target -value)]))))} label])
+                                                (conj old id)
+                                                [id]))))} label])
      allowed-values)]]])

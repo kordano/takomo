@@ -32,6 +32,9 @@
        (.getZone date-time))
      date-time)))
 
+(defn str->Date [s]
+  (tc/to-date (convert-to-joda-time s)))
+
 (defn remove-namespace [data]
   (reduce-kv (fn [m k v] (assoc m (keyword (name k)) v)) {} data))
 

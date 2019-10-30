@@ -14,5 +14,6 @@
                  [metosin/muuntaja "0.6.4"]
                  [clj-time "0.15.1"]
                  [ring-cors "0.1.13"]
+                 [com.rpl/specter "1.1.3"]
                  [mount "0.1.16"]]
   :repl-options {:init-ns takomo.core})

@@ -1,1 +1,1 @@
-{:datahike/uri "datahike:mem://takomo"}
+{:datahike/uri "datahike:file:///tmp/takomo"}

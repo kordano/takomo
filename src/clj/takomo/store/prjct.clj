@@ -6,11 +6,9 @@
             [takomo.utils :as tu]))
 
 (def project-initial-keys
-  [:project/title :project/description :project/startDate :project/endDate :project/customer
-   :project/responsible :project/members :project/invoice :project/offers :project/rate
-   :project.rate/unit])
+  [:project/title :project/description :project/customer :project/startDate :project/endDate :project/responsible :project/members :project/rate :project.rate/unit])
 
-(def project-optional-keys [:project/acceptedAt :project/paidAt :project/reference])
+(def project-optional-keys [:project/acceptedAt :project/invoice :project/offers :project/paidAt :project/reference])
 
 (defn create-reference [title]
   (let [title-letters (split title #"\s")]
@@ -32,22 +30,32 @@
                            (apply str)) i))
                (inc i))))))
 
-(defn pre-process [{:keys [title] :as project}]
-  (-> project
-      (tu/add-namespace :project)
-      (select-keys project-initial-keys)
-      (assoc :project/reference (create-reference title))
-      (update :project/rate long)))
+(defn pre-process [{:keys [title startDate endDate] :as project}]
+  (let [new-project (-> project
+                        (tu/add-namespace :project)
+                        (select-keys project-initial-keys)
+                        (assoc :project/reference (create-reference title))
+                        (update :project/rate long))
+        new-project (if startDate
+                      (update new-project :project/startDate tu/str->Date)
+                      new-project)]
+    (if endDate
+      (update new-project :project/endDate tu/str->Date)
+      new-project)))
+
 
 (defn create-project [project]
   (d/transact conn [(pre-process project)]))
 
-(defn post-process [project]
-  (-> project
-      (update :project/members #(mapv :db/id %))
-      (update :project/customer #(get % :db/id))
-      (update :project/responsible #(get % :db/id))
-      tu/remove-namespace))
+(defn post-process [{:keys [:project/startDate] :as project}]
+  (let [new-project (-> project
+                        (update :project/members #(mapv :db/id %))
+                        (update :project/customer #(get % :db/id))
+                        (update :project/responsible #(get % :db/id))
+                        tu/remove-namespace)]
+    (if startDate
+      (update new-project :startDate tu/format-to-iso-8601-date)
+      new-project)))
 
 (defn read-projects []
   (->> @conn

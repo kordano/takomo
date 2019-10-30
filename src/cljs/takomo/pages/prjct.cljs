@@ -1,5 +1,5 @@
 (ns takomo.pages.prjct
-  (:require [takomo.pages.templates :refer [creation-template]]
+  (:require [takomo.pages.templates :refer [creation-template overview-template]]
             [takomo.network :as net]
             [cljs.reader :refer [read-string]]))
 
@@ -21,9 +21,6 @@
    :endDate {:input-type :date
              :label "End date"
              :placeholder "e.g. 1.2.2020"}
-   :acceptedAt {:input-type :date
-                :label "Accepted at"
-                :placeholder "e.g. 1.11.2019"}
    :customer {:input-type :select
               :label "Customer"
               :allowed-values (mapv
@@ -59,3 +56,11 @@
    "project"
    (input-keys state)])
 
+(defn projects-page [state]
+  [overview-template
+   state
+   "project"
+   {:title "Title"
+    :description "Description"
+    :responsible "Responsible"
+    :reference "Reference"}])

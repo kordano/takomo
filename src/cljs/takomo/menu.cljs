@@ -25,5 +25,6 @@
       [:a
        {:style {:color "red"} :on-click (fn []
                                           (reset! state {})
+                                          (.removeItem (.-localStorage js/window) "credentials")
                                           (acc/navigate! "/"))}
        "Logout"]]]]])

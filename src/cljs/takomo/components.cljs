@@ -28,7 +28,6 @@
                              (swap! state assoc input-name id))} label])
       allowed-values)]]])
 
-
 (defn multi-select [state input-name label allowed-values]
   (let [selected-values (into #{} (get @state input-name))]
     [:div.field {:key input-name}

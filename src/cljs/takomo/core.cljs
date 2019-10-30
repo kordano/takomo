@@ -6,6 +6,7 @@
             [takomo.pages.customer :refer [new-customer-page customers-page customer-page]]
             [takomo.pages.login :refer [login-page]]
             [takomo.pages.prjct :refer [new-project-page projects-page project-page]]
+            [cljs.reader :refer [read-string]]
             [accountant.core :as accountant]
             [secretary.core :as secretary :refer-macros [defroute]]
             [goog.events :as events]
@@ -74,6 +75,7 @@
   (r/render [page] (.getElementById js/document "root")))
 
 (defn init! []
+  (swap! state assoc-in [:credentials] (read-string (.getItem (.-localStorage js/window) "credentials")))
   (accountant/configure-navigation!
    {:nav-handler
     (fn [path]
@@ -95,5 +97,8 @@
 
   (takomo.pages.prjct/input-keys state)
 
+  (read-string (.getItem (.-localStorage js/window) "credentials"))
+
+  (.removeItem (.-localStorage js/window) "credentials" )
 
   )

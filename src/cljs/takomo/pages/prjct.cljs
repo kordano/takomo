@@ -1,5 +1,5 @@
 (ns takomo.pages.prjct
-  (:require [takomo.pages.templates :refer [creation-template overview-template]]
+  (:require [takomo.pages.templates :refer [creation-template overview-template details-template]]
             [takomo.network :as net]
             [cljs.reader :refer [read-string]]))
 
@@ -64,3 +64,17 @@
     :description "Description"
     :responsible "Responsible"
     :reference "Reference"}])
+
+(defn project-page [state]
+  (net/api-get state
+             "members"
+             {}
+             (fn [resp] (swap! state assoc :members (read-string (str resp)))))
+  (net/api-get state
+             "customers"
+             {}
+             (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
+  [details-template
+   state
+   "project"
+   (input-keys state)])

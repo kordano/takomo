@@ -23,22 +23,25 @@
      (map
       (fn [{:keys [id label]}]
         [:option {:value id
+                  :selected (= (get @state input-name) id)
                   :on-click (fn [e]
                              (swap! state assoc input-name id))} label])
       allowed-values)]]])
 
 
 (defn multi-select [state input-name label allowed-values]
- [:div.field {:key input-name}
-  [:label.label label]
-  [:div.select.is-multiple
-   [:select {:multiple true :size 4}
-    (map
-     (fn [{:keys [id label]}]
-       [:option {:value id 
-                 :on-click (fn [e]
-                             (swap! state update input-name 
-                                    (fn [old] (if old
-                                                (conj old id)
-                                                [id]))))} label])
-     allowed-values)]]])
+  (let [selected-values (into #{} (get @state input-name))]
+    [:div.field {:key input-name}
+     [:label.label label]
+     [:div.select.is-multiple
+      [:select {:multiple true :size 4}
+       (map
+        (fn [{:keys [id label]}]
+          [:option {:value id
+                    :selected (contains? selected-values id)
+                    :on-click (fn []
+                                (swap! state update input-name
+                                       (fn [old] (if old
+                                                   (conj old id)
+                                                   [id]))))} label])
+        allowed-values)]]]))

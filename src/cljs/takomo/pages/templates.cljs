@@ -73,8 +73,11 @@
         [:div.container
          [:h1.title (str capitalized " #" id)]
          (map
-          (fn [[k [input-type label placeholder]]]
-            [field inputs input-type k label placeholder])
+          (fn [[k {:keys [input-type label placeholder allowed-values]}]]
+            (case input-type
+              :select [select inputs k label allowed-values]
+              :multi-select [multi-select inputs k label allowed-values]
+              [field inputs input-type k label placeholder]))
           input-keys)
          [:a.button.is-primary
           {:disabled (= @inputs selected)

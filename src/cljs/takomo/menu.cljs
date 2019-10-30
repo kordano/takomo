@@ -19,6 +19,10 @@
     [:ul.menu-list
      [:li [:a {:on-click #(acc/navigate! "/projects")} "Overview"]]
      [:li [:a {:on-click #(acc/navigate! "/new-project")} "Create new project"]]]
+    [:p.menu-label "Tasks"]
+    [:ul.menu-list
+     [:li [:a {:on-click #(acc/navigate! "/tasks")} "Overview"]]
+     [:li [:a {:on-click #(acc/navigate! "/new-task")} "Create new task"]]]
     [:p.menu-label ""]
     [:ul.menu-list
      [:li

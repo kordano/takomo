@@ -145,8 +145,7 @@
                                     :body (st/read-tasks)})}
                   :post {:parameters {:body :takomo.model/new-task}
                          :swagger {:tags ["task"]}
-                         :handler (fn [{{new-task :body} :parameters}]
-                                    (st/create-task new-task)
+                         :handler (fn [req] (st/create-task (body req))
                                     (ok {}))}}]
        ["/tasks/:id"
         {:put    {:parameters {:body :takomo.model/task

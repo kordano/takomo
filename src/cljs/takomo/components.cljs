@@ -5,14 +5,22 @@
    [:label.label label]
    [:div.control
     [:input.input
-     {:type input-type
+     {:type (case input-type
+              :int :number
+              :float :number
+              input-type)
+      :lang "en"
+      :step "any"
       :autoComplete "new-password"
       :placeholder placeholder
       :on-change (fn [e] (swap! state assoc-in [input-name] (let [val (.. e -target -value)]
                                                               (case input-type
-                                                                :number (int val)
+                                                                :number (js/parseFloat val)
+                                                                :int (js/parseInt val)
+                                                                :float (js/parseFloat val)
                                                                 val))))
       :value (get @state input-name)}]]])
+
 
 (defn select [state input-name label allowed-values]
   [:div.field {:key input-name}

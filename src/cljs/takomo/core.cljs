@@ -6,6 +6,7 @@
             [takomo.pages.customer :refer [new-customer-page customers-page customer-page]]
             [takomo.pages.login :refer [login-page]]
             [takomo.pages.prjct :refer [new-project-page projects-page project-page]]
+            [takomo.pages.task :refer [new-task-page tasks-page task-page]]
             [cljs.reader :refer [read-string]]
             [accountant.core :as accountant]
             [secretary.core :as secretary :refer-macros [defroute]]
@@ -62,6 +63,15 @@
 
 (defroute "/project" []
   (reset! selected-page project-page))
+
+(defroute "/new-task" []
+  (reset! selected-page new-task-page))
+
+(defroute "/tasks" []
+  (reset! selected-page tasks-page))
+
+(defroute "/task" []
+  (reset! selected-page task-page))
 
 (defn hook-browser-navigation! []
   (doto (History.)

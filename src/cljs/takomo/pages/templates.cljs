@@ -19,15 +19,16 @@
       input-keys)
      [:a.button.is-primary
       {:on-click
-       #_#(js/alert @inputs)
        (fn []
-         (net/api-post
-          state 
-          (str model "s") 
-          @inputs 
-          (fn []
-            (swap! state update-in [:notifications] conj (str capitalized  " created!"))
-            (reset! inputs nil))))}
+         (let [data @inputs ]
+           (js/alert data)
+           (net/api-post
+            state
+            (str model "s")
+            data
+            (fn []
+              (swap! state update-in [:notifications] conj (str capitalized  " created!"))
+              (reset! inputs nil)))))}
       "Create"]]))
 
 
@@ -51,7 +52,9 @@
                      [:td [:a {:on-click (fn []
                                            (swap! state assoc-in [:selected] el)
                                            (acc/navigate! (str "/" model)))} id]]
-                     (map (fn [[k v]] [:td {:key v} v]) (select-keys el (keys table-data)))
+                     (map
+                      (fn [[k v]] [:td {:key (or (str (get el k) k) (str id k))} (or (get el k) "N/A")])
+                      table-data)
                      [:td [:a.delete
                            {:on-click
                             (fn []

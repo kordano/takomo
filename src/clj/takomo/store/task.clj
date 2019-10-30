@@ -1,31 +1,24 @@
 (ns takomo.store.task
   (:require [datahike.api :as d]
             [takomo.store :refer [conn]]
-            [takomo.utils :as tu]
-            [clj-time.core :as t]
-            [hasch.core :as h]))
+            [takomo.utils :as tu]))
 
 (def task-keys [:task/title :task/description :task/assignees :task/project :task/estimation :task.estimation/unit :task/reference])
 
 (defn pre-process [task]
   (-> task
-      (update :task/estimation double)
-      (tu/add-namespace :task)))
-
-(defn post-process [task]
-  (-> task
-      tu/remove-namespace))
-
-(defn create-task [task]
-  (d/transact conn [(-> task
-                        (select-keys task-keys)
-                        pre-process)]))
+      (tu/add-namespace :task)
+      (select-keys task-keys)
+      (update :task/estimation double)))
 
 (defn post-process [task]
   (-> task
       (update :task/assignees #(mapv :db/id %))
       (update :task/project #(get % :db/id))
       tu/remove-namespace))
+
+(defn create-task [task]
+  (d/transact conn [(pre-process task)]))
 
 (defn read-tasks []
   (->> @conn

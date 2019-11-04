@@ -63,13 +63,12 @@
 (s/def ::task (s/keys :opt-un [:db/id :task/title :task/description :task/assignee :task/estimation :task.estimation/unit :task/project :task/reference]))
 (s/def ::tasks (s/coll-of ::task))
 
-(s/def :effort/startDate string?)
-(s/def :effort/endDate string?)
-(s/def :effort/reference string?)
+(s/def :effort/startDate #(or (string? %) (nil? %)))
+(s/def :effort/endDate #(or (string? %) (nil? %)))
 (s/def :effort/task ::id)
 (s/def :effort/assignee ::id)
-(s/def ::new-effort (s/keys :opt-un [:effort/startDate :effort/endDate :effort/task :effort/assignee :effort/reference]))
-(s/def ::effort (s/keys :opt-un [:db/id :effort/startDate :effort/endDate :effort/task :effort/assignee :effort/reference]))
+(s/def ::new-effort (s/keys :opt-un [:effort/startDate :effort/endDate :effort/task :effort/assignee]))
+(s/def ::effort (s/keys :opt-un [:db/id :effort/startDate :effort/endDate :effort/task :effort/assignee]))
 (s/def ::efforts (s/coll-of ::effort))
 
 (s/def :project/title string?)
@@ -117,8 +116,7 @@
 (s/def ::projects (s/coll-of ::project))
 
 (s/def :jws/token string?)
-(s/def :jws/user ::member)
-(s/def ::jws (s/keys :opt-un [:jws/token :jws/user]))
+(s/def ::jws (s/keys :opt-un [:jws/token]))
 
 (s/def :credentials/username string?)
 (s/def :credentials/password string?)

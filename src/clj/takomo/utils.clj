@@ -26,11 +26,12 @@
 (defn format-to-iso-8601-date
   "Formats given date to ISO 8601 compliant date."
   [date]
-  (let [date-time (t/to-time-zone (convert-to-joda-time date) (t/default-time-zone))]
-    (tf/unparse
-     (tf/with-zone (tf/formatters :date-time-no-ms)
-       (.getZone date-time))
-     date-time)))
+  (when date
+    (let [date-time (t/to-time-zone (convert-to-joda-time date) (t/default-time-zone))]
+      (tf/unparse
+       (tf/with-zone (tf/formatters :date-time-no-ms)
+         (.getZone date-time))
+       date-time))))
 
 (defn str->Date [s]
   (tc/to-date (convert-to-joda-time s)))

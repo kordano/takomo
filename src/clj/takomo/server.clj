@@ -13,7 +13,7 @@
             [clojure.spec.alpha :as s]
             [buddy.sign.jwt :as jwt]
             [buddy.core.nonce :as nonce]
-            [buddy.auth :refer [authenticated? throw-unauthorized]]
+            [buddy.auth :refer [authenticated? throw-unauthorized] :as auth]
             [buddy.auth.backends.token :refer [jwe-backend]]
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
             [mount.core :refer [defstate]]
@@ -71,12 +71,13 @@
                                  password (-> req body :password)
                                  valid? (sm/credentials-valid? username password)]
                              (if valid?
-                               (let [claims {:user (keyword username)
+                               (let [{:keys [id role]} (sm/read-member-by-email username)
+                                     claims {:user username
+                                             :id id
+                                             :role (keyword role)
                                              :exp (time/plus (time/now) (time/seconds 3600))}
-                                     token (jwt/encrypt claims secret {:alg :a256kw :enc :a128gcm})
-                                     user-data (sm/read-member-by-email username)]
-                                 (ok {:token token
-                                      :user user-data}))
+                                     token (jwt/encrypt claims secret {:alg :a256kw :enc :a128gcm})]
+                                 (ok {:token token}))
                                (bad-request {:message "Invalid credentials."}))))}}]
 
        ["/members" {:get  {:responses {200 {:body :takomo.model/members}}
@@ -108,7 +109,7 @@
 
        ["/customers" {:get {:responses {200 {:body :takomo.model/customers}}
                             :swagger {:tags ["customer"]}
-                            :handler (fn [req] (ok (sc/read-customers)))}
+                            :handler (fn [_] (ok (sc/read-customers)))}
                       :post {:parameters {:body :takomo.model/new-customer}
                              :swagger {:tags ["customer"]}
                              :handler (fn [req] (sc/create-customer (body req))
@@ -142,12 +143,11 @@
 
        ["/tasks" {:get {:responses {200 {:body :takomo.model/tasks}}
                         :swagger {:tags ["task"]}
-                        :handler (fn [req]
-                                   {:status 200
-                                    :body (st/read-tasks)})}
+                        :handler (fn [_] (ok (st/read-tasks)))}
                   :post {:parameters {:body :takomo.model/new-task}
                          :swagger {:tags ["task"]}
-                         :handler (fn [req] (st/create-task (body req))
+                         :handler (fn [req]
+                                    (st/create-task (body req))
                                     (ok {}))}}]
        ["/tasks/:id"
         {:put    {:parameters {:body :takomo.model/task
@@ -162,15 +162,24 @@
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (st/delete-task id)
                                 (ok {}))}}]
+
+       ["/tasks/:id/efforts"
+        {:post {:parameters {:body :takomo.model/new-effort
+                               :path ::path-params}
+                :swagger {:tags ["effort"]}
+                :handler (fn [req]
+                           (ok (se/create-effort (merge
+                                                  {:assignee (get-in req [:identity :id])
+                                                   :task (get-in req [:parameters :path :id])}
+                                                  (body req)))))}}]
+
        ["/efforts" {:get {:responses {200 {:body :takomo.model/efforts}}
                           :swagger {:tags ["effort"]}
-                          :handler (fn [req]
-                                     {:status 200
-                                      :body (se/read-efforts)})}
+                          :handler (fn [_] (ok (se/read-efforts)))}
                     :post {:parameters {:body :takomo.model/new-effort}
                            :swagger {:tags ["effort"]}
-                           :handler (fn [{{new-effort :body} :parameters}]
-                                      (se/create-effort new-effort)
+                           :handler (fn [req]
+                                      (se/create-effort (assoc (body req) :assignee (get-in req [:identity :id])))
                                       (ok {}))}}]
        ["/efforts/:id"
         {:put    {:parameters {:body :takomo.model/new-effort

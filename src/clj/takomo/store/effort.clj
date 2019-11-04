@@ -3,25 +3,32 @@
             [takomo.store :refer [conn]]
             [takomo.utils :as tu]))
 
-(def effort-keys [:effort/startDate :effort/reference :effort/endDate :effort/description :effort/task :effort/assignee])
+(def effort-keys [:effort/startDate :effort/endDate  :effort/task :effort/assignee])
 
-(defn pre-process [effort]
-  (-> effort
-      (tu/add-namespace :effort)
-      (select-keys effort-keys)))
+(defn pre-process [{:keys [endDate] :as effort}]
+  (let [new-effort
+        (-> effort
+            (tu/add-namespace :effort)
+            (update :effort/startDate #(if % (tu/str->Date %) (java.util.Date.)))
+            (select-keys effort-keys))]
+    (if endDate
+      (update new-effort :effort/endDate tu/str->Date)
+      new-effort)))
 
 (defn post-process [effort]
   (-> effort
       (update :effort/assignee #(get % :db/id))
       (update :effort/task #(get % :db/id))
+      (update :effort/startDate tu/format-to-iso-8601-date)
+      (update :effort/endDate tu/format-to-iso-8601-date)
       tu/remove-namespace))
 
 (defn create-effort [effort]
-  (d/transact conn [(pre-process effort)]))
+  {:id (-> (d/transact conn [(pre-process effort)]) :tx-data last :e)})
 
 (defn read-efforts []
   (->> @conn
-       (d/q '[:find [(pull ?e [*]) ...] :where [?e :effort/reference ?r]])
+       (d/q '[:find [(pull ?e [*]) ...] :where [?e :effort/assignee _]])
        (mapv post-process)))
 
 (defn read-effort-by-id [id]
@@ -29,13 +36,14 @@
       (d/pull '[*] id)
       post-process))
 
-(defn read-effort-by-reference [reference]
-  (read-effort-by-id [:effort/reference reference]))
-
-(defn update-effort [{:keys [:db/id] :as effort}]
+(defn update-effort [{:keys [id endDate] :as effort}]
   (if-not id
     (throw (ex-info "id should not be nil" effort))
-    (d/transact conn [(select-keys effort (conj effort-keys :db/id))])))
+    (let [tx-data (-> (pre-process effort)
+                      (assoc :db/id id))]
+      (d/transact conn [tx-data]))))
+
+(defn finish-effort [])
 
 (defn delete-effort [id]
   (d/transact conn [[:db/retractEntity id]]))

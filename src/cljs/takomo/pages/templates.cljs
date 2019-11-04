@@ -35,37 +35,38 @@
 (defn overview-template [state model table-data]
   (let [plural (str model "s")
         capitalized (clojure.string/capitalize model)]
-    (letfn [(get-overview [] 
-              (net/api-get state 
+    (letfn [(get-overview []
+              (net/api-get state
                            plural
                            {}
                            (fn [resp] (swap! state assoc (keyword plural) (read-string (str resp))))))]
       (get-overview)
       (fn [state]
-          [:div.container
-           [:table.table
-            [:thead
-             [:tr [:th "ID"] (map (fn [[k v]] [:th {:key v} v]) table-data) [:th ""]]]
-            [:tbody
-             (map (fn [{:keys [id] :as el}]
-                    [:tr {:key id}
-                     [:td [:a {:on-click (fn []
-                                           (swap! state assoc-in [:selected] el)
-                                           (acc/navigate! (str "/" model)))} id]]
-                     (map
-                      (fn [[k v]] [:td {:key (or (str (get el k) k) (str id k))} (or (get el k) "N/A")])
-                      table-data)
-                     [:td [:a.delete
-                           {:on-click
-                            (fn []
+        [:div.container
+         [:h1.title (clojure.string/capitalize plural)]
+         [:table.table
+          [:thead
+           [:tr [:th "ID"] (map (fn [[k v]] [:th {:key v} v]) table-data) [:th ""]]]
+          [:tbody
+           (map (fn [{:keys [id] :as el}]
+                  [:tr {:key id}
+                   [:td [:a {:on-click (fn []
+                                         (swap! state assoc-in [:selected] el)
+                                         (acc/navigate! (str "/" model)))} id]]
+                   (map
+                    (fn [[k v]] [:td {:key (or (str (get el k) k) (str id k))} (or (get el k) "-")])
+                    table-data)
+                   [:td [:a.delete
+                         {:on-click
+                          (fn []
                             ;; show confirmation dialog
-                              (net/api-delete
-                               state
-                               (str plural "/" id)
-                               (fn []
-                                 (swap! state update-in [:notifications] conj (str capitalized " deleted!"))
-                                 (get-overview))))}]]])
-                  (get @state (keyword plural)))]]]))))
+                            (net/api-delete
+                             state
+                             (str plural "/" id)
+                             (fn []
+                               (swap! state update-in [:notifications] conj (str capitalized " deleted!"))
+                               (get-overview))))}]]])
+                (get @state (keyword plural)))]]]))))
 
 (defn details-template [state model input-keys]
   (let [inputs (r/atom (:selected @state))
@@ -86,6 +87,7 @@
           {:disabled (= @inputs selected)
            :on-click
            (fn []
+             (js/alert @inputs)
              (net/api-put
               state
               (str plural "/" id)

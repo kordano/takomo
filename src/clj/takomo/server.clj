@@ -73,8 +73,10 @@
                              (if valid?
                                (let [claims {:user (keyword username)
                                              :exp (time/plus (time/now) (time/seconds 3600))}
-                                     token (jwt/encrypt claims secret {:alg :a256kw :enc :a128gcm})]
-                                 (ok {:token token}))
+                                     token (jwt/encrypt claims secret {:alg :a256kw :enc :a128gcm})
+                                     user-data (sm/read-member-by-email username)]
+                                 (ok {:token token
+                                      :user user-data}))
                                (bad-request {:message "Invalid credentials."}))))}}]
 
        ["/members" {:get  {:responses {200 {:body :takomo.model/members}}

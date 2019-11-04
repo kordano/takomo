@@ -67,9 +67,9 @@
  {:db/ident :task/description
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :task/assignees
+ {:db/ident :task/assignee
   :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/many}
+  :db/cardinality :db.cardinality/one}
  {:db/ident :task/project
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
@@ -78,6 +78,9 @@
   :db/cardinality :db.cardinality/one}
  {:db/ident :task.estimation/unit
   :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :task/parent
+  :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
  {:db/ident :task/reference
   :db/valueType :db.type/string
@@ -91,14 +94,6 @@
   :db/cardinality :db.cardinality/one}
  {:db/ident :effort/endDate
   :db/valueType :db.type/instant
-  :db/cardinality :db.cardinality/one}
- {:db/ident :effort/description
-  :db/valueType :db.type/string
-  :db/cardinality :db.cardinality/one}
- {:db/ident :effort/reference
-  :db/valueType :db.type/string
-  :db/unique :db.unique/identity
-  :db/index true
   :db/cardinality :db.cardinality/one}
  {:db/ident :effort/task
   :db/valueType :db.type/ref

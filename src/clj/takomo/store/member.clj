@@ -31,7 +31,7 @@
 
 (defn read-member-by-id [id]
   (-> @conn
-      (d/pull '[:db/id :member/firstname :member/lastname :member/email] id)
+      (d/pull '[:db/id :member/firstname :member/lastname :member/email {:member/role [:db/ident]}] id)
       post-process))
 
 (defn read-member-by-email [email]

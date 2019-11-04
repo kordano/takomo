@@ -53,24 +53,23 @@
 
 (s/def :task/title string?)
 (s/def :task/description string?)
-(s/def :task/assignees (s/coll-of ::id))
+(s/def :task/assignee #(or (nil? %) (int? %)))
 (s/def :task/estimation double?)
 (s/def :task.estimation/unit keyword?)
 (s/def :task/reference string?)
 (s/def :task/project ::id)
 
-(s/def ::new-task (s/keys :opt-un [:task/title :task/description :task/assignees :task/estimation :task.estimation/unit :task/project :task/reference]))
-(s/def ::task (s/keys :opt-un [:db/id :task/title :task/description :task/assignees :task/estimation :task.estimation/unit :task/project :task/reference]))
+(s/def ::new-task (s/keys :opt-un [:task/title :task/description :task/assignee :task/estimation :task.estimation/unit :task/project :task/reference]))
+(s/def ::task (s/keys :opt-un [:db/id :task/title :task/description :task/assignee :task/estimation :task.estimation/unit :task/project :task/reference]))
 (s/def ::tasks (s/coll-of ::task))
 
 (s/def :effort/startDate string?)
 (s/def :effort/endDate string?)
-(s/def :effort/description string?)
 (s/def :effort/reference string?)
 (s/def :effort/task ::id)
 (s/def :effort/assignee ::id)
-(s/def ::new-effort (s/keys :opt-un [:effort/startDate :effort/endDate :effort/description :effort/task :effort/assignee :effort/reference]))
-(s/def ::effort (s/keys :opt-un [:db/id :effort/startDate :effort/endDate :effort/description :effort/task :effort/assignee :effort/reference]))
+(s/def ::new-effort (s/keys :opt-un [:effort/startDate :effort/endDate :effort/task :effort/assignee :effort/reference]))
+(s/def ::effort (s/keys :opt-un [:db/id :effort/startDate :effort/endDate :effort/task :effort/assignee :effort/reference]))
 (s/def ::efforts (s/coll-of ::effort))
 
 (s/def :project/title string?)
@@ -118,7 +117,8 @@
 (s/def ::projects (s/coll-of ::project))
 
 (s/def :jws/token string?)
-(s/def ::jws (s/keys :opt-un [:jws/token]))
+(s/def :jws/user ::member)
+(s/def ::jws (s/keys :opt-un [:jws/token :jws/user]))
 
 (s/def :credentials/username string?)
 (s/def :credentials/password string?)

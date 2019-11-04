@@ -23,7 +23,7 @@
 (defn api-get [state endpoint params handler]
   (GET (str base-uri endpoint)
     {:handler handler
-                :error-handler error-handler
+     :error-handler error-handler
      :response-format :json
      :headers (get-header state)
      :params params

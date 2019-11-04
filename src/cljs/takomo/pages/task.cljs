@@ -10,8 +10,8 @@
    :description {:input-type :text
                  :label "Description"
                  :placeholder "e.g. Musterbeschreibung"}
-   :assignees {:input-type :multi-select
-               :label "Assignees"
+   :assignee {:input-type :select
+               :label "Assignee"
                :allowed-values (mapv (fn [{:keys [id firstname lastname]}]
                                        {:id id
                                         :label (str firstname " " lastname)})
@@ -21,7 +21,8 @@
                 :placeholder "e.g. 100.50"}
    :unit {:input-type :select
           :label "Unit"
-          :allowed-values [{:id "day" :label "Day"}
+          :allowed-values [{:id "hour" :label "Hour"}
+                           {:id "day" :label "Day"}
                            {:id "month" :label "Month"}
                            {:id "year" :label "Year"}
                            ]}
@@ -51,9 +52,10 @@
    "task"
    {:title "Title"
     :description "Description"
-    :assignees "Assignees"
     :reference "Reference"
     :estimation "Estimation"
+    :assignee "Assignee"
+    :unit "Unit"
     :project "Project"}])
 
 (defn task-page [state]

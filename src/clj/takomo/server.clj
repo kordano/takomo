@@ -92,6 +92,10 @@
                                          (-> req body sm/create-member)
                                          (ok {}))}}]
 
+       ["/self/tasks" {:get  {:responses {200 {:body :takomo.model/tasks}}
+                            :swagger {:tags ["self-service"]}
+                            :handler   (fn [req] (ok (sm/read-member-tasks (get-in req [:identity :id]))))}}]
+
        ["/members/:id"
         {:put    {:parameters {:body :takomo.model/new-member
                                :path ::path-params}

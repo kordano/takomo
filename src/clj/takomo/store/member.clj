@@ -1,6 +1,6 @@
 (ns takomo.store.member
   (:require [datahike.api :as d]
-            [hasch.core :as h]
+            [buddy.hashers :as bh]
             [takomo.utils :as tu]
             [takomo.store :refer [conn]]))
 
@@ -12,8 +12,7 @@
       (update :member/role (fn [old] (keyword "member" old)))
       (select-keys member-keys)
       (merge
-       {:member/salt     "123"
-        :member/passhash (h/b64-hash (:password member))})))
+       {:member/password (bh/derive (:password member))})))
 
 (defn post-process [member]
   (-> member
@@ -48,6 +47,7 @@
   (d/transact conn [[:db/retractEntity id]]))
 
 (defn credentials-valid? [username password]
-  (if-let [member-password (:member/passhash (d/pull @conn '[:member/passhash] [:member/email username]))]
-    (= (h/b64-hash password) member-password)
+  (if-let [member-password (:member/password (d/pull @conn '[:member/password] [:member/email username]))]
+    (bh/check password member-password)
     (throw (ex-info "Invalid Credentials" {:username username :password password}))))
+

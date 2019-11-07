@@ -8,6 +8,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [io.replikativ/datahike "0.2.1-SNAPSHOT"]
                  [buddy/buddy-auth "2.1.0"]
+                 [buddy/buddy-hashers "1.4.0"]
                  [io.replikativ/hasch "0.3.6-SNAPSHOT"]
                  [metosin/reitit "0.3.9"]
                  [http-kit "2.3.0"]

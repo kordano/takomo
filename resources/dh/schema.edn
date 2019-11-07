@@ -13,10 +13,7 @@
  {:db/ident :member/role
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
- {:db/ident :member/salt
-  :db/valueType :db.type/string
-  :db/cardinality :db.cardinality/one}
- {:db/ident :member/passhash
+ {:db/ident :member/password
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
 
@@ -150,9 +147,89 @@
   :db/unique :db.unique/identity
   :db/index true}
 
- {:member/passhash "UQxKIMw/ZQtmtjz9Ql0/Tgdr3/poSYlXYfqrZ3pTw5xcb0g2rLtyl/LZ7uswwQh9M0STQ4D6woAcfLPFC1T6CA=="
+ {:member/password "bcrypt+sha512$53e9f57c0679cd0638e2fdb4a4002e05$12$4c71ac2580327db38aae38f5b066ad4d6942348aa261b16a"
   :member/email "admin@takomo.eu"
   :member/firstname "Admin"
   :member/lastname ""
-  :member/salt "123"
-  :member/role :member/admin}]
+  :member/role :member/admin}
+
+ {:db/id -1
+  :member/password "bcrypt+sha512$8ebdd1d921653307a88f90a07451c767$12$cd5af702591e48c2142928fe8286f87d237ec916e866bb04"
+  :member/email "mmustermann@takomo.eu"
+  :member/firstname "Max"
+  :member/lastname "Mustermann"
+  :member/role :member/employee}
+
+ {:db/id -2
+  :member/password "bcrypt+sha512$c97496b41ea6864541ba6d1112e9ae92$12$1dc0deac8da9315929cf9241a1dbfb9b3b59f2d839d82243"
+  :member/email "emusterfrau@takomo.eu"
+  :member/firstname "Erika"
+  :member/lastname "Musterfrau"
+  :member/role :member/manager}
+
+ {:db/id -3
+  :customer/name "Musterfirma"
+  :customer/contact "John Doe"
+  :customer/department "R&D"
+  :customer/city "Musterstadt"
+  :customer/street "Musterstraße 42"
+  :customer/postal "4321"
+  :customer/country "Musterland"}
+
+ {:db/id -4
+  :project/title "Musterprojekt"
+  :project/reference "MT"
+  :project/description "Musterbeschreibung"
+  :project/customer -3
+  :project/startDate #inst "2019-12-31T23:00:00.000-00:00"
+  :project/responsible -1
+  :project/members [-1 -2]
+  :project/rate  800
+  :project.rate/unit :day}
+
+ {:db/id -5
+  :project/title "SampelProject"
+  :project/reference "ST"
+  :project/description "Sample description"
+  :project/customer -3
+  :project/startDate #inst "2019-12-31T23:00:00.000-00:00"
+  :project/responsible -2
+  :project/members [-2]
+  :project/rate  120
+  :project.rate/unit :hour}
+
+ {:db/id -6
+  :task/title "Musteraufgabe 1"
+  :task/description "Musterbeschreibung 1"
+  :task/reference "MT-1"
+  :task/assignee -1
+  :task/project -4
+  :task/estimation 120.0
+  :task.estimation/unit :day}
+
+ {:db/id -7
+  :task/title "Musteraufgabe 2"
+  :task/description "Musterbeschreibung 2"
+  :task/reference "MT-2"
+  :task/assignee -1
+  :task/project -4
+  :task/estimation 120.0
+  :task.estimation/unit :day}
+
+ {:db/id -8
+  :task/title "Musteraufgabe 3"
+  :task/description "Musterbeschreibung 3"
+  :task/reference "MT-3"
+  :task/assignee -2
+  :task/project -4
+  :task/estimation 120.0
+  :task.estimation/unit :day}
+
+ {:db/id -9
+  :task/title "Sample Task 1"
+  :task/description "Sample description 1"
+  :task/reference "MT-1"
+  :task/assignee -2
+  :task/project -4
+  :task/estimation 50.0
+  :task.estimation/unit :hours}]

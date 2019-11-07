@@ -4,7 +4,13 @@
             [com.rpl.specter :as s]
             [takomo.utils :as tu]))
 
-(def task-keys [:task/title :task/description :task/assignee :task/project :task/estimation :task/unit :task/reference])
+(def task-keys
+  [:task/title
+   :task/description
+   :task/assignee
+   :task/project
+   :task/estimation
+   :task/unit])
 
 (defn create-task-ref [project-id]
   (let [project-ref (:project/reference (d/pull @conn '[:project/reference] project-id))]

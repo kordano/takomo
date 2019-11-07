@@ -6,7 +6,15 @@
             [takomo.utils :as tu]))
 
 (def project-initial-keys
-  [:project/title :project/description :project/customer :project/startDate :project/endDate :project/responsible :project/members :project/rate :project/unit])
+  [:project/title
+   :project/description
+   :project/customer
+   :project/startDate
+   :project/endDate
+   :project/responsible
+   :project/members
+   :project/rate
+   :project/unit])
 
 (def project-optional-keys [:project/acceptedAt :project/invoice :project/offers :project/paidAt :project/reference])
 

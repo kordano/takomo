@@ -1,34 +1,25 @@
 (ns takomo.menu
-  (:require [accountant.core :as acc]))
+  (:require [accountant.core :as acc]
+            [takomo.util :refer [logout]]))
 
 (defn menu [state]
-  [:div.container
-   [:aside.menu
-    [:p.menu-label "General"]
-    [:ul.menu-list
-     [:li [:a {:on-click #(acc/navigate! "/")} "Home"]]]
-    [:p.menu-label "Members"]
-    [:ul.menu-list
-     [:li [:a {:on-click #(acc/navigate! "/members")} "Overview"]]
-     [:li [:a {:on-click #(acc/navigate! "/new-member")} "Create new member"]]]
-    [:p.menu-label "Customers"]
-    [:ul.menu-list
-     [:li [:a {:on-click #(acc/navigate! "/customers")} "Overview"]]
-     [:li [:a {:on-click #(acc/navigate! "/new-customer")} "Create new customer"]]]
-    [:p.menu-label "Projects"]
-    [:ul.menu-list
-     [:li [:a {:on-click #(acc/navigate! "/projects")} "Overview"]]
-     [:li [:a {:on-click #(acc/navigate! "/new-project")} "Create new project"]]]
-    [:p.menu-label "Tasks"]
-    [:ul.menu-list
-     [:li [:a {:on-click #(acc/navigate! "/tasks")} "Overview"]]
-     [:li [:a {:on-click #(acc/navigate! "/new-task")} "Create new task"]]]
-    [:p.menu-label ""]
-    [:ul.menu-list
-     [:li
-      [:a
-       {:style {:color "red"} :on-click (fn []
-                                          (reset! state {})
-                                          (.removeItem (.-localStorage js/window) "credentials")
-                                          (acc/navigate! "/"))}
-       "Logout"]]]]])
+  (let [allowed-admin-roles #{"admin" "manager"}]
+    [:div.container
+     [:aside.menu
+      [:p.menu-label "General"]
+      [:ul.menu-list
+       [:li [:a {:on-click #(acc/navigate! "/")} "Dashboard"]]]
+      (when (allowed-admin-roles (-> @state :credentials :role))
+        [:p.menu-label "Administration"])
+      (when (allowed-admin-roles (-> @state :credentials :role))
+        [:ul.menu-list
+         [:li [:a {:on-click #(acc/navigate! "/members")} "Members"]]
+         [:li [:a {:on-click #(acc/navigate! "/customers")} "Customers"]]
+         [:li [:a {:on-click #(acc/navigate! "/projects")} "Projects"]]
+         [:li [:a {:on-click #(acc/navigate! "/tasks")} "Tasks"]]])
+      [:p.menu-label ""]
+      [:ul.menu-list
+       [:li
+        [:a.has-text-danger
+         {:on-click (fn [] (logout state))}
+         "Logout"]]]]]))

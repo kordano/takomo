@@ -115,8 +115,10 @@
                                   :project.rate/unit]))
 (s/def ::projects (s/coll-of ::project))
 
+(s/def :jws/role string?)
 (s/def :jws/token string?)
-(s/def ::jws (s/keys :opt-un [:jws/token]))
+(s/def :jws/expired string?)
+(s/def ::jws (s/keys :opt-un [:jws/token :jws/role :jws/expired]))
 
 (s/def :credentials/username string?)
 (s/def :credentials/password string?)

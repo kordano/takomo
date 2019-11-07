@@ -33,20 +33,16 @@
    })
 
 (defn new-task-page [state]
-  (net/api-get state
-             "members"
-             {}
-             (fn [resp] (swap! state assoc :members (read-string (str resp)))))
-  (net/api-get state
-             "projects"
-             {}
-             (fn [resp] (swap! state assoc :projects (read-string (str resp)))))
+  (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
+  (net/api-get state "projects" {} (fn [resp] (swap! state assoc :projects (read-string (str resp)))))
   [creation-template
    state
    "task"
    (input-keys state)])
 
 (defn tasks-page [state]
+  (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
+  (net/api-get state "projects" {} (fn [resp] (swap! state assoc :projects (read-string (str resp)))))
   [overview-template
    state
    "task"
@@ -56,7 +52,8 @@
     :estimation "Estimation"
     :assignee "Assignee"
     :unit "Unit"
-    :project "Project"}])
+    :project "Project"}
+   (input-keys state)])
 
 (defn task-page [state]
   (net/api-get state

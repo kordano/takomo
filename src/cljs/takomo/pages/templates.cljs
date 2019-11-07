@@ -8,32 +8,35 @@
 (defn creation-template [state model input-keys]
   (let [inputs (r/atom {})
         capitalized (clojure.string/capitalize model)]
-    [:div.container
-     [:h1.title (str "Create new " capitalized)]
-     (map 
-      (fn [[k {:keys [input-type label placeholder allowed-values]}]]
-        (case input-type
-          :select [select inputs k label allowed-values]
-          :multi-select [multi-select inputs k label allowed-values]
-          [field inputs input-type k label placeholder]))
-      input-keys)
-     [:a.button.is-primary
-      {:on-click
-       (fn []
-         (let [data @inputs ]
-           (js/alert data)
-           (net/api-post
-            state
-            (str model "s")
-            data
-            (fn []
-              (swap! state update-in [:notifications] conj (str capitalized  " created!"))
-              (reset! inputs nil)))))}
-      "Create"]]))
+    (fn []
+      [:div.container
+       [:h1.title (str "Create new " capitalized)]
+       (map 
+        (fn [[k {:keys [input-type label placeholder allowed-values]}]]
+          (case input-type
+            :select [select inputs k label allowed-values]
+            :multi-select [multi-select inputs k label allowed-values]
+            [field inputs input-type k label placeholder]))
+        input-keys)
+       [:a.button.is-primary
+        {:on-click
+         (fn []
+           (let [data @inputs ]
+             (js/alert data)
+             (net/api-post
+              state
+              (str model "s")
+              data
+              (fn []
+                (swap! state update-in [:notifications] conj (str capitalized  " created!"))
+                (reset! inputs nil)))))}
+        "Create"]])))
 
 
-(defn overview-template [state model table-data]
+(defn overview-template [state model table-data input-keys]
   (let [plural (str model "s")
+        inputs (r/atom {})
+        toggles (r/atom {:creation-modal false})
         capitalized (clojure.string/capitalize model)]
     (letfn [(get-overview []
               (net/api-get state
@@ -43,7 +46,13 @@
       (get-overview)
       (fn [state]
         [:div.container
-         [:h1.title (clojure.string/capitalize plural)]
+         [:div.columns.level
+          [:div.column.level-left
+           [:h1.title (clojure.string/capitalize plural)]]
+          [:dib.column.level-right
+           [:button.button.is-primary
+            {:on-click (fn [] (swap! toggles assoc :creation-modal true))}
+            (str "Add new " capitalized)]]]
          [:table.table
           [:thead
            [:tr [:th "ID"] (map (fn [[k v]] [:th {:key v} v]) table-data) [:th ""]]]
@@ -56,17 +65,47 @@
                    (map
                     (fn [[k v]] [:td {:key (or (str (get el k) k) (str id k))} (or (get el k) "-")])
                     table-data)
-                   [:td [:a.delete
-                         {:on-click
-                          (fn []
-                            ;; show confirmation dialog
-                            (net/api-delete
-                             state
-                             (str plural "/" id)
-                             (fn []
-                               (swap! state update-in [:notifications] conj (str capitalized " deleted!"))
-                               (get-overview))))}]]])
-                (get @state (keyword plural)))]]]))))
+                   [:td
+                    [:div
+                     [:a
+                      {:on-click (fn []
+                                   (net/api-delete
+                                    state
+                                    (str plural "/" id)
+                                    (fn []
+                                      (swap! state update-in [:notifications] conj (str capitalized " deleted!"))
+                                      (get-overview))))}
+                      [:span.icon [:i.fas.fa-trash.has-text-danger]]]]]])
+                (get @state (keyword plural)))]]
+         [:div.modal
+          {:class (if (:creation-modal @toggles) "is-active is-clipped" "")}
+          [:div.modal-background]
+          [:div.modal-content
+           [:div.box
+            [:div.container
+             [:h1.title (str "Add new " capitalized)]
+             (map
+              (fn [[k {:keys [input-type label placeholder allowed-values]}]]
+                (case input-type
+                  :select [select inputs k label allowed-values]
+                  :multi-select [multi-select inputs k label allowed-values]
+                  [field inputs input-type k label placeholder]))
+              input-keys)
+             [:a.button.is-primary
+              {:on-click
+               (fn []
+                 (let [data @inputs]
+                   (net/api-post
+                    state
+                    (str model "s")
+                    data
+                    (fn []
+                      (swap! toggles assoc :creation-modal false)
+                      (swap! state update-in [:notifications] conj (str capitalized  " created!"))
+                      (reset! inputs nil)
+                      (get-overview)))))}
+              "Create"]]]]
+          [:button.modal-close.is-large {:aria-label :close :on-click #(swap! toggles assoc :creation-modal false)}]]]))))
 
 (defn details-template [state model input-keys]
   (let [inputs (r/atom (:selected @state))

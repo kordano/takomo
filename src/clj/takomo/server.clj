@@ -18,6 +18,7 @@
             [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
             [mount.core :refer [defstate]]
             [takomo.model]
+            [takomo.utils :as tu]
             [takomo.store
              [customer :as sc]
              [document :as sd]
@@ -72,12 +73,13 @@
                                  valid? (sm/credentials-valid? username password)]
                              (if valid?
                                (let [{:keys [id role]} (sm/read-member-by-email username)
+                                     exp (time/plus (time/now) (time/seconds 3600))
                                      claims {:user username
                                              :id id
                                              :role (keyword role)
                                              :exp (time/plus (time/now) (time/seconds 3600))}
                                      token (jwt/encrypt claims secret {:alg :a256kw :enc :a128gcm})]
-                                 (ok {:token token}))
+                                 (ok {:token token :role (name role) :expired (tu/format-to-iso-8601-date exp)}))
                                (bad-request {:message "Invalid credentials."}))))}}]
 
        ["/members" {:get  {:responses {200 {:body :takomo.model/members}}

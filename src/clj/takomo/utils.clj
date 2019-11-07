@@ -11,6 +11,9 @@
 (defmethod convert-to-joda-time java.lang.Long [d]
   (tc/from-long d))
 
+(defmethod convert-to-joda-time org.joda.time.DateTime [d]
+  d)
+
 (defmethod convert-to-joda-time String [d]
   (tc/from-string d))
 

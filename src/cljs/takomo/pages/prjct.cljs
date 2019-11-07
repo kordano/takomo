@@ -43,27 +43,24 @@
                            {:id "year" :label "Year"}]}})
 
 (defn new-project-page [state]
-  (net/api-get state
-             "members"
-             {}
-             (fn [resp] (swap! state assoc :members (read-string (str resp)))))
-  (net/api-get state
-             "customers"
-             {}
-             (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
+  (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
+  (net/api-get state "customers" {} (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
   [creation-template
    state
    "project"
    (input-keys state)])
 
 (defn projects-page [state]
+  (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
+  (net/api-get state "customers" {} (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
   [overview-template
    state
    "project"
    {:title "Title"
     :description "Description"
     :responsible "Responsible"
-    :reference "Reference"}])
+    :reference "Reference"}
+   (input-keys state)])
 
 (defn project-page [state]
   (net/api-get state

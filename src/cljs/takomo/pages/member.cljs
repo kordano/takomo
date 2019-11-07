@@ -35,7 +35,8 @@
    {:firstname "Firstname"
     :lastname "Lastname"
     :email "Email"
-    :role "Role"}])
+    :role "Role"}
+   input-keys])
 
 (defn member-page [state]
   [details-template

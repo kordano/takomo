@@ -99,16 +99,6 @@
 
 (comment
 
-  (@state :members)
-
-  @state
-
   (init!)
-
-  (takomo.pages.prjct/input-keys state)
-
-  (read-string (.getItem (.-localStorage js/window) "credentials"))
-
-  (.removeItem (.-localStorage js/window) "credentials" )
 
   )

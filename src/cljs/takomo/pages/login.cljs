@@ -20,9 +20,10 @@
           {:on-click
            (fn []
              (POST "http://localhost:3000/api/login"
-               {:handler (fn [response]
-                           (swap! state assoc :credentials (read-string (str response)))
-                           (.setItem (.-localStorage js/window) "credentials" (str (:credentials @state)))
+                 {:handler (fn [response]
+                             (let [credentials (-> response str read-string (update :expired #(js/Date. %)))]
+                               (swap! state assoc :credentials credentials)
+                               (.setItem (.-localStorage js/window) "credentials" (str credentials)))
                            (reset! inputs nil)
                            (acc/navigate! "/"))
                 :error-handler #(js/alert (read-string (str %)))

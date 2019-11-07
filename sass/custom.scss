@@ -1,2 +1,11 @@
 @charset "utf-8";
 @import "../node_modules/bulma/bulma.sass";
+
+$modal-background-background-color: blue;
+
+$beige-lighter: #ff0011;
+$body-background-color: $beige-lighter;
+
+.body {
+  background: #ff0000;
+}

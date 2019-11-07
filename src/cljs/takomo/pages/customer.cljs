@@ -36,7 +36,8 @@
    state
    "customer"
    {:name "Name"
-    :contact "Contact"}])
+    :contact "Contact"}
+   input-data])
 
 (defn customer-page [state]
   [details-template

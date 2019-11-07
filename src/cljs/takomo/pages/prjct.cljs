@@ -1,5 +1,5 @@
 (ns takomo.pages.prjct
-  (:require [takomo.pages.templates :refer [creation-template overview-template details-template]]
+  (:require [takomo.pages.templates :refer [ overview-template]]
             [takomo.network :as net]
             [cljs.reader :refer [read-string]]))
 
@@ -42,13 +42,6 @@
                            {:id "month" :label "Month"}
                            {:id "year" :label "Year"}]}})
 
-(defn new-project-page [state]
-  (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
-  (net/api-get state "customers" {} (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
-  [creation-template
-   state
-   "project"
-   (input-keys state)])
 
 (defn projects-page [state]
   (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
@@ -60,18 +53,4 @@
     :description "Description"
     :responsible "Responsible"
     :reference "Reference"}
-   (input-keys state)])
-
-(defn project-page [state]
-  (net/api-get state
-             "members"
-             {}
-             (fn [resp] (swap! state assoc :members (read-string (str resp)))))
-  (net/api-get state
-             "customers"
-             {}
-             (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
-  [details-template
-   state
-   "project"
    (input-keys state)])

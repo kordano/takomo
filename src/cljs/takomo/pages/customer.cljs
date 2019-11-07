@@ -1,5 +1,5 @@
 (ns takomo.pages.customer
-  (:require [takomo.pages.templates :refer [creation-template overview-template details-template]]))
+  (:require [takomo.pages.templates :refer [ overview-template ]]))
 
 (def input-data 
   {:name {:input-type :text
@@ -24,13 +24,6 @@
              :label "Country"
              :placeholder "e.g. Germany"}})
 
-(defn new-customer-page [state]
-  [creation-template
-   state
-   "customer"
-   input-data
-   ])
-
 (defn customers-page [state]
   [overview-template
    state
@@ -38,10 +31,3 @@
    {:name "Name"
     :contact "Contact"}
    input-data])
-
-(defn customer-page [state]
-  [details-template
-   state
-   "customer"
-   input-data
-   ])

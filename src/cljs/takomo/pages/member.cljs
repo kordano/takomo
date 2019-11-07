@@ -1,5 +1,5 @@
 (ns takomo.pages.member
-  (:require [takomo.pages.templates :refer [creation-template overview-template details-template]]))
+  (:require [takomo.pages.templates :refer [ overview-template ]]))
 
 (def input-keys
   {:firstname {:input-type :text
@@ -22,11 +22,6 @@
                            {:label "manager" :id "manager"}
                            {:label "admin" :id "admin"}]}})
 
-(defn new-member-page [state]
-  [creation-template
-   state
-   "member"
-   input-keys])
 
 (defn members-page [state]
   [overview-template
@@ -36,10 +31,4 @@
     :lastname "Lastname"
     :email "Email"
     :role "Role"}
-   input-keys])
-
-(defn member-page [state]
-  [details-template
-   state
-   "member"
    input-keys])

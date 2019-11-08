@@ -6,7 +6,7 @@
             [ajax.core :refer [POST]]))
 
 (defn login-page [state]
-  (let [inputs (r/atom {:username "admin@takomo.eu" :password "takomo"})]
+  (let [inputs (r/atom {:username "mmustermann@takomo.eu" :password "employee"})]
     [:div.columns
      [:div.column.container.is-one-third.is-offset-one-third
       [:div.card

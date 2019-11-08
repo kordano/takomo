@@ -2,6 +2,7 @@
   (:require [datahike.api :as d]
             [buddy.hashers :as bh]
             [takomo.utils :as tu]
+            [com.rpl.specter :as s]
             [takomo.store :refer [conn]]))
 
 (def member-keys [:member/firstname :member/lastname :member/email :member/role])
@@ -51,3 +52,22 @@
     (bh/check password member-password)
     (throw (ex-info "Invalid Credentials" {:username username :password password}))))
 
+
+(defn read-member-tasks [id]
+(->> (d/q '[:find [(pull ?t [*]) ...]
+              :in $ ?m
+              :where
+              [?t :task/assignee ?m]]
+            @conn
+            id)
+       (s/transform [s/ALL s/MAP-VALS map?] tu/remove-namespace)
+       (s/transform [s/ALL] tu/remove-namespace)
+       (s/transform [s/ALL :project] :id)
+       (s/transform [s/ALL :assignee] :id)))
+
+(comment
+
+
+
+
+  )

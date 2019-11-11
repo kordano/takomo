@@ -43,7 +43,5 @@
                       (assoc :db/id id))]
       (d/transact conn [tx-data]))))
 
-(defn finish-effort [])
-
 (defn delete-effort [id]
   (d/transact conn [[:db/retractEntity id]]))

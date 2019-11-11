@@ -12,6 +12,7 @@
                  [io.replikativ/hasch "0.3.6-SNAPSHOT"]
                  [metosin/reitit "0.3.9"]
                  [http-kit "2.3.0"]
+                 [cljfx "1.6.0"]
                  [metosin/muuntaja "0.6.4"]
                  [clj-time "0.15.1"]
                  [ring-cors "0.1.13"]

@@ -50,8 +50,7 @@
        (s/transform [s/ALL s/MAP-VALS map?] tu/remove-namespace)
        (s/transform [s/ALL] tu/remove-namespace)
        (s/transform [s/ALL :project] :id)
-       (s/transform [s/ALL :assignee] :id)
-       ))
+       (s/transform [s/ALL :assignee] :id)))
 
 (defn read-task-by-id [id]
   (-> @conn

@@ -15,35 +15,35 @@
 (s/def :member/salt string?)
 (s/def :member/passhash string?)
 (s/def :member/password string?)
-(s/def :member/role #{:admin :manager :employee :guest})
-(s/def :new-member/role #{"admin" "manager" "employee" "guest"})
+(s/def :member/role #{:admin :manager :accountant :employee :external})
+(s/def :new-member/role #{"admin" "manager" "accountant" "employee" "external"})
 (s/def ::member (s/keys :opt-un [:db/id :member/firstname :member/lastname :member/email :member/password :member/role]))
 (s/def ::new-member (s/keys :opt-un [:member/firstname :member/lastname :member/email :member/password :new-member/role]))
 (s/def ::members (s/coll-of ::member))
 
-(s/def :customer/name string?)
-(s/def :customer/contact string?)
-(s/def :customer/department string?)
-(s/def :customer/city string?)
-(s/def :customer/street string?)
-(s/def :customer/postal string?)
-(s/def :customer/country string?)
-(s/def ::new-customer (s/keys :opt-un [:customer/name
-                                       :customer/contact
-                                       :customer/department
-                                       :customer/city
-                                       :customer/street
-                                       :customer/postal
-                                       :customer/country]))
-(s/def ::customer (s/keys :opt-un [:db/id
-                                   :customer/name
-                                   :customer/contact
-                                   :customer/department
-                                   :customer/city
-                                   :customer/street
-                                   :customer/postal
-                                   :customer/country]))
-(s/def ::customers (s/coll-of ::customer))
+(s/def :company/name string?)
+(s/def :company/contact string?)
+(s/def :company/department string?)
+(s/def :company/city string?)
+(s/def :company/street string?)
+(s/def :company/postal string?)
+(s/def :company/country string?)
+(s/def ::new-company (s/keys :opt-un [:company/name
+                                      :company/contact
+                                      :company/department
+                                      :company/city
+                                      :company/street
+                                      :company/postal
+                                      :company/country]))
+(s/def ::company (s/keys :opt-un [:db/id
+                                  :company/name
+                                  :company/contact
+                                  :company/department
+                                  :company/city
+                                  :company/street
+                                  :company/postal
+                                  :company/country]))
+(s/def ::companies (s/coll-of ::company))
 
 (s/def :document/reference string?)
 (s/def :document/fileName string?)
@@ -77,7 +77,7 @@
 (s/def :project/endDate string?)
 (s/def :project/acceptedAt string?)
 (s/def :project/paidAt string?)
-(s/def :project/customer ::id)
+(s/def :project/company ::id)
 (s/def :project/members (s/coll-of ::id))
 (s/def :project/invoice ::id)
 (s/def :project/offers (s/coll-of ::id))
@@ -92,7 +92,7 @@
                                       :project/endDate
                                       :project/acceptedAt
                                       :project/paidAt
-                                      :project/customer
+                                      :project/company
                                       :project/members
                                       :project/invoice
                                       :project/offers
@@ -107,7 +107,7 @@
                                   :project/endDate
                                   :project/acceptedAt
                                   :project/paidAt
-                                  :project/customer
+                                  :project/company
                                   :project/members
                                   :project/invoice
                                   :project/offers

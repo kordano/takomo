@@ -1,5 +1,5 @@
 (ns takomo.pages.prjct
-  (:require [takomo.pages.templates :refer [ overview-template]]
+  (:require [takomo.pages.templates :refer [overview-template]]
             [takomo.network :as net]
             [cljs.reader :refer [read-string]]))
 
@@ -21,18 +21,18 @@
    :endDate {:input-type :date
              :label "End date"
              :placeholder "e.g. 1.2.2020"}
-   :customer {:input-type :select
-              :label "Customer"
-              :allowed-values (mapv
-                               (fn [{:keys [id name]}]
-                                 {:label name :id id})
-                               (:customers @state))}
+   :company {:input-type :select
+             :label "company"
+             :allowed-values (mapv
+                              (fn [{:keys [id name]}]
+                                {:label name :id id})
+                              (:companies @state))}
    :members {:input-type :multi-select
              :label "Members"
              :allowed-values (mapv
-                                  (fn [{:keys [id firstname lastname]}]
-                                    {:id id :label (str firstname " " lastname)})
-                                  (:members @state))}
+                              (fn [{:keys [id firstname lastname]}]
+                                {:id id :label (str firstname " " lastname)})
+                              (:members @state))}
    :rate {:input-type :int
           :label "Rate"
           :placeholder "100"}
@@ -45,7 +45,7 @@
 
 (defn projects-page [state]
   (net/api-get state "members" {} (fn [resp] (swap! state assoc :members (read-string (str resp)))))
-  (net/api-get state "customers" {} (fn [resp] (swap! state assoc :customers (read-string (str resp)))))
+  (net/api-get state "companies" {} (fn [resp] (swap! state assoc :companies (read-string (str resp)))))
   [overview-template
    state
    "project"

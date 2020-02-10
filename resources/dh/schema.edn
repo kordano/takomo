@@ -1,4 +1,16 @@
-[;; member
+[;; enums
+ {:db/ident :member/admin}
+ {:db/ident :member/manager}
+ {:db/ident :member/accountant}
+ {:db/ident :member/employee}
+ {:db/ident :member/external}
+
+ {:db/ident :company/partner}
+ {:db/ident :company/regular}
+ {:db/ident :company/contractor}
+
+
+;; member
  {:db/ident :member/firstname
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
@@ -16,48 +28,114 @@
  {:db/ident :member/password
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
+ {:db/ident :member/id
+  :db/valueType :db.type/string
+  :db/unique :db.unique/identity
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :member/company
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
 
- {:db/ident :member/admin}
- {:db/ident :member/manager}
- {:db/ident :member/employee}
- {:db/ident :member/guest}
 
- ;; customer
- {:db/ident :customer/name
+ ;; company
+ {:db/ident :company/id
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
   :db/unique :db.unique/identity
   :db/index true}
- {:db/ident :customer/contact
+ {:db/ident :company/name
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/unique :db.unique/identity
+  :db/index true}
+ {:db/ident :company/role
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :company/contact
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :customer/department
+ {:db/ident :company/email
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :customer/street
+ {:db/ident :company/department
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :customer/city
+ {:db/ident :company/street
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :customer/postal
+ {:db/ident :company/city
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :customer/country
+ {:db/ident :company/postal
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :company/country
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
 
- ;; document
- {:db/ident :document/reference
+
+  ;; account
+ {:db/ident :account/IBAN
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :account/BIC
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :account/holder
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
+
+
+ ;; project
+ {:db/ident :project/id
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one
+  :db/unique :db.unique/identity
+  :db/index true}
+ {:db/ident :project/title
   :db/valueType :db.type/string
   :db/unique :db.unique/identity
   :db/index true
   :db/cardinality :db.cardinality/one}
- {:db/ident :document/fileName
+ {:db/ident :project/description
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
+ {:db/ident :project/startDate
+  :db/valueType :db.type/instant
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/endDate
+  :db/valueType :db.type/instant
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/acceptedAt
+  :db/valueType :db.type/instant
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/paidAt
+  :db/valueType :db.type/instant
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/client
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/responsible
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/members
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/many}
+ {:db/ident :project/rate
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project.rate/unit
+  :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project/budget
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :project.budget/unit
+  :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/one}
 
- ;; task
+
+  ;; task
  {:db/ident :task/title
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
@@ -79,11 +157,12 @@
  {:db/ident :task/parent
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
- {:db/ident :task/reference
+ {:db/ident :task/id
   :db/valueType :db.type/string
   :db/unique :db.unique/identity
   :db/index true
   :db/cardinality :db.cardinality/one}
+
 
  ;; effort
  {:db/ident :effort/startDate
@@ -95,141 +174,75 @@
  {:db/ident :effort/task
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
- {:db/ident :effort/assignee
+ {:db/ident :effort/member
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
 
- ;; project
- {:db/ident :project/title
-  :db/valueType :db.type/string
-  :db/unique :db.unique/identity
-  :db/index true
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/description
+
+ ;; offer
+ {:db/ident :offer/id
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/startDate
+ {:db/ident :offer/title
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :offer/project
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :offer/created-at
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :offer/sent-at
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :offer/filename
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+
+ ;; invoice
+ {:db/ident :invoice/id
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :invoice/title
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :invoice/project
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :invoice/created-at
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :invoice/sent-at
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :invoice/remark
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :invoice/filename
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+
+
+ ;; turnover
+ {:db/ident :turnover/sales-data
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :turnover/booking-day
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/endDate
-  :db/valueType :db.type/instant
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/acceptedAt
-  :db/valueType :db.type/instant
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/paidAt
-  :db/valueType :db.type/instant
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/customer
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/responsible
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/members
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/many}
- {:db/ident :project/invoice
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/one}
- {:db/ident :project/offers
-  :db/valueType :db.type/ref
-  :db/cardinality :db.cardinality/many}
- {:db/ident :project/rate
+ {:db/ident :turnover/amount
   :db/valueType :db.type/long
   :db/cardinality :db.cardinality/one}
- {:db/ident :project.rate/unit
+ {:db/ident :turnover/unit
   :db/valueType :db.type/keyword
   :db/cardinality :db.cardinality/one}
- {:db/ident :project/reference
+ {:db/ident :turnover/remark
   :db/valueType :db.type/string
-  :db/cardinality :db.cardinality/one
-  :db/unique :db.unique/identity
-  :db/index true}
-
- {:member/password "bcrypt+sha512$53e9f57c0679cd0638e2fdb4a4002e05$12$4c71ac2580327db38aae38f5b066ad4d6942348aa261b16a"
-  :member/email "admin@takomo.eu"
-  :member/firstname "Admin"
-  :member/lastname ""
-  :member/role :member/admin}
-
- {:db/id -1
-  :member/password "bcrypt+sha512$8ebdd1d921653307a88f90a07451c767$12$cd5af702591e48c2142928fe8286f87d237ec916e866bb04"
-  :member/email "mmustermann@takomo.eu"
-  :member/firstname "Max"
-  :member/lastname "Mustermann"
-  :member/role :member/employee}
-
- {:db/id -2
-  :member/password "bcrypt+sha512$c97496b41ea6864541ba6d1112e9ae92$12$1dc0deac8da9315929cf9241a1dbfb9b3b59f2d839d82243"
-  :member/email "emusterfrau@takomo.eu"
-  :member/firstname "Erika"
-  :member/lastname "Musterfrau"
-  :member/role :member/manager}
-
- {:db/id -3
-  :customer/name "Musterfirma"
-  :customer/contact "John Doe"
-  :customer/department "R&D"
-  :customer/city "Musterstadt"
-  :customer/street "Musterstraße 42"
-  :customer/postal "4321"
-  :customer/country "Musterland"}
-
- {:db/id -4
-  :project/title "Musterprojekt"
-  :project/reference "MT"
-  :project/description "Musterbeschreibung"
-  :project/customer -3
-  :project/startDate #inst "2019-12-31T23:00:00.000-00:00"
-  :project/responsible -1
-  :project/members [-1 -2]
-  :project/rate  800
-  :project.rate/unit :day}
-
- {:db/id -5
-  :project/title "SampelProject"
-  :project/reference "ST"
-  :project/description "Sample description"
-  :project/customer -3
-  :project/startDate #inst "2019-12-31T23:00:00.000-00:00"
-  :project/responsible -2
-  :project/members [-2]
-  :project/rate  120
-  :project.rate/unit :hour}
-
- {:db/id -6
-  :task/title "Musteraufgabe 1"
-  :task/description "Musterbeschreibung 1"
-  :task/reference "MT-1"
-  :task/assignee -1
-  :task/project -4
-  :task/estimation 120.0
-  :task.estimation/unit :day}
-
- {:db/id -7
-  :task/title "Musteraufgabe 2"
-  :task/description "Musterbeschreibung 2"
-  :task/reference "MT-2"
-  :task/assignee -1
-  :task/project -4
-  :task/estimation 120.0
-  :task.estimation/unit :day}
-
- {:db/id -8
-  :task/title "Musteraufgabe 3"
-  :task/description "Musterbeschreibung 3"
-  :task/reference "MT-3"
-  :task/assignee -2
-  :task/project -4
-  :task/estimation 120.0
-  :task.estimation/unit :day}
-
- {:db/id -9
-  :task/title "Sample Task 1"
-  :task/description "Sample description 1"
-  :task/reference "MT-1"
-  :task/assignee -2
-  :task/project -4
-  :task/estimation 50.0
-  :task.estimation/unit :hours}]
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :turnover/invoice
+  :db/valueType :db.type/ref
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :turnover/filename
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}]

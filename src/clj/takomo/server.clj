@@ -20,7 +20,7 @@
             [takomo.model]
             [takomo.utils :as tu]
             [takomo.store
-             [customer :as sc]
+             [company :as sc]
              [document :as sd]
              [effort :as se]
              [member :as sm]
@@ -62,7 +62,6 @@
               :handler (swagger/create-swagger-handler)}}]
 
       ["/api"
-
        ["/login"
         {:post {:responses {200 {:body :takomo.model/jws}}
                 :parameters {:body :takomo.model/credentials}
@@ -93,8 +92,8 @@
                                          (ok {}))}}]
 
        ["/self/tasks" {:get  {:responses {200 {:body :takomo.model/tasks}}
-                            :swagger {:tags ["self-service"]}
-                            :handler   (fn [req] (ok (sm/read-member-tasks (get-in req [:identity :id]))))}}]
+                              :swagger {:tags ["self-service"]}
+                              :handler   (fn [req] (ok (sm/read-member-tasks (get-in req [:identity :id]))))}}]
 
        ["/members/:id"
         {:put    {:parameters {:body :takomo.model/new-member
@@ -113,38 +112,26 @@
                                 (sm/delete-member (path req :id))
                                 (ok {}))}}]
 
-       ["/customers" {:get {:responses {200 {:body :takomo.model/customers}}
-                            :swagger {:tags ["customer"]}
-                            :handler (fn [_] (ok (sc/read-customers)))}
-                      :post {:parameters {:body :takomo.model/new-customer}
-                             :swagger {:tags ["customer"]}
-                             :handler (fn [req] (sc/create-customer (body req))
+       ["/companies" {:get {:responses {200 {:body :takomo.model/companies}}
+                            :swagger {:tags ["company"]}
+                            :handler (fn [_] (ok (sc/read-companies)))}
+                      :post {:parameters {:body :takomo.model/new-company}
+                             :swagger {:tags ["company"]}
+                             :handler (fn [req] (sc/create-company (body req))
                                         (ok {}))}}]
 
-       ["/customers/:id"
-        {:put    {:parameters {:body :takomo.model/new-customer
+       ["/companies/:id"
+        {:put    {:parameters {:body :takomo.model/new-company
                                :path ::path-params}
 
-                  :swagger {:tags ["customer"]}
-                  :handler    (fn [{{updated-customer :body {:keys [id]} :path} :parameters}]
-                                (sc/update-customer (assoc updated-customer :db/id id))
+                  :swagger {:tags ["company"]}
+                  :handler    (fn [{{updated-company :body {:keys [id]} :path} :parameters}]
+                                (sc/update-company (assoc updated-company :db/id id))
                                 (ok {}))}
          :delete {:parameters {:path ::path-params}
-                  :swagger {:tags ["customer"]}
+                  :swagger {:tags ["company"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
-                                (sc/delete-customer id)
-                                (ok {}))}}]
-
-       ["/documents" {:get {:responses {200 {:body :takomo.model/documents}}
-                            :swagger {:tags ["document"]}
-                            :handler (fn [req]
-                                       {:status 200
-                                        :body (sd/read-documents)})}}]
-       ["/documents/:id"
-        {:delete {:parameters {:path ::path-params}
-                  :swagger {:tags ["document"]}
-                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
-                                (sd/delete-document id)
+                                (sc/delete-company id)
                                 (ok {}))}}]
 
        ["/tasks" {:get {:responses {200 {:body :takomo.model/tasks}}
@@ -171,7 +158,7 @@
 
        ["/tasks/:id/efforts"
         {:post {:parameters {:body :takomo.model/new-effort
-                               :path ::path-params}
+                             :path ::path-params}
                 :swagger {:tags ["effort"]}
                 :handler (fn [req]
                            (ok (se/create-effort (merge

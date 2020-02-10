@@ -19,7 +19,7 @@ shadow-cljs watch dev
 Connect with your editor to the repl port given by shadow-cljs.
 ## License
 
-Copyright © 2019 Konrad Kühne
+Copyright © 2020 Konrad Kühne
 
 This program and the accompanying materials are made available under the
 terms of the Eclipse Public License 2.0 which is available at

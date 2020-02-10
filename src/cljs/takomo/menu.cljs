@@ -14,7 +14,7 @@
       (when (allowed-admin-roles (-> @state :credentials :role))
         [:ul.menu-list
          [:li [:a {:on-click #(acc/navigate! "/members")} "Members"]]
-         [:li [:a {:on-click #(acc/navigate! "/customers")} "Customers"]]
+         [:li [:a {:on-click #(acc/navigate! "/companies")} "companies"]]
          [:li [:a {:on-click #(acc/navigate! "/projects")} "Projects"]]
          [:li [:a {:on-click #(acc/navigate! "/tasks")} "Tasks"]]])
       [:p.menu-label ""]

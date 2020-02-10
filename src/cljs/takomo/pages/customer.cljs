@@ -1,7 +1,7 @@
-(ns takomo.pages.customer
-  (:require [takomo.pages.templates :refer [ overview-template ]]))
+(ns takomo.pages.company
+  (:require [takomo.pages.templates :refer [overview-template]]))
 
-(def input-data 
+(def input-data
   {:name {:input-type :text
           :label "Name"
           :placeholder "e.g. Musterfirma"}
@@ -24,10 +24,10 @@
              :label "Country"
              :placeholder "e.g. Germany"}})
 
-(defn customers-page [state]
+(defn companies-page [state]
   [overview-template
    state
-   "customer"
+   "company"
    {:name "Name"
     :contact "Contact"}
    input-data])

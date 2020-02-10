@@ -128,7 +128,7 @@
 			"response": []
 		},
 		{
-			"name": "get all customers",
+			"name": "get all companies",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -140,7 +140,7 @@
 					"raw": "{}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/customers",
+					"raw": "http://localhost:3000/api/companies",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -148,14 +148,14 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"customers"
+						"companies"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "new customer",
+			"name": "new company",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -168,10 +168,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"customer/name\": \"Evil Corp\",\n\t\"customer/contact\": \"Doctor Doom\",\n\t\"customer/department\": \"Monarch\",\n\t\"customer/city\": \"Doomstaddt\",\n\t\"customer/street\": \"King's Ave 1\",\n\t\"customer/postal\": \"666\",\n\t\"customer/country\": \"Latveria\"\n}"
+					"raw": "{\n\t\"company/name\": \"Evil Corp\",\n\t\"company/contact\": \"Doctor Doom\",\n\t\"company/department\": \"Monarch\",\n\t\"company/city\": \"Doomstaddt\",\n\t\"company/street\": \"King's Ave 1\",\n\t\"company/postal\": \"666\",\n\t\"company/country\": \"Latveria\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/customers",
+					"raw": "http://localhost:3000/api/companies",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -179,14 +179,14 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"customers"
+						"companies"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "update customer",
+			"name": "update company",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -199,10 +199,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"customer/postal\": \"999\"\n}"
+					"raw": "{\n\t\"company/postal\": \"999\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/customers/43",
+					"raw": "http://localhost:3000/api/companies/43",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -210,7 +210,7 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"customers",
+						"companies",
 						"43"
 					]
 				}
@@ -218,7 +218,7 @@
 			"response": []
 		},
 		{
-			"name": "delete customer",
+			"name": "delete company",
 			"request": {
 				"method": "DELETE",
 				"header": [
@@ -234,7 +234,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/customers/37",
+					"raw": "http://localhost:3000/api/companies/37",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -242,7 +242,7 @@
 					"port": "3000",
 					"path": [
 						"api",
-						"customers",
+						"companies",
 						"37"
 					]
 				}

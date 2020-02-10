@@ -135,7 +135,6 @@
 (defn note-button [{:keys [fx/context]}]
   {:fx/type :button
    :text "Run query"
-   :style-class "foo"
    :on-action {:event/type ::run-query
                :query (fx/sub context :typed-query)}})
 
@@ -144,7 +143,7 @@
     {:fx/type :stage
      :showing true
      :scene {:fx/type :scene
-             :stylesheets #{"markdown.css"}
+             ;;:stylesheets #{"markdown.css"}
              :root {:fx/type :v-box
                     :spacing 10
                     :padding 20

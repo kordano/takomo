@@ -2,11 +2,11 @@
   (:require [reagent.core :as r]
             [takomo.pages.home :refer [home-page]]
             [takomo.menu :refer [menu]]
-            [takomo.pages.member :refer [members-page ]]
-            [takomo.pages.customer :refer [ customers-page]]
+            [takomo.pages.member :refer [members-page]]
+            [takomo.pages.company :refer [companies-page]]
             [takomo.pages.login :refer [login-page]]
-            [takomo.pages.prjct :refer [ projects-page]]
-            [takomo.pages.task :refer [ tasks-page]]
+            [takomo.pages.prjct :refer [projects-page]]
+            [takomo.pages.task :refer [tasks-page]]
             [cljs.reader :refer [read-string]]
             [accountant.core :as accountant]
             [secretary.core :as secretary :refer-macros [defroute]]
@@ -17,8 +17,8 @@
 (defonce state (r/atom {}))
 
 (defn get-headers []
-    (let [token (-> @state :credentials :token)]
-      {"Authorization" (str "Token " token)}))
+  (let [token (-> @state :credentials :token)]
+    {"Authorization" (str "Token " token)}))
 
 (def selected-page (r/atom home-page))
 
@@ -40,8 +40,8 @@
 (defroute "/members" []
   (reset! selected-page members-page))
 
-(defroute "/customers" []
-  (reset! selected-page customers-page))
+(defroute "/companies" []
+  (reset! selected-page companies-page))
 
 (defroute "/projects" []
   (reset! selected-page projects-page))
@@ -51,11 +51,11 @@
 
 (defn hook-browser-navigation! []
   (doto (History.)
-        (events/listen
-         HistoryEventType/NAVIGATE
-         (fn [event]
-           (secretary/dispatch! (.-token event))))
-        (.setEnabled true)))
+    (events/listen
+     HistoryEventType/NAVIGATE
+     (fn [event]
+       (secretary/dispatch! (.-token event))))
+    (.setEnabled true)))
 
 (defn mount-root []
   (r/render [page] (.getElementById js/document "root")))
@@ -77,6 +77,6 @@
 
   @state
 
-  (init!)
+  (println @state)
 
-  )
+  (init!))

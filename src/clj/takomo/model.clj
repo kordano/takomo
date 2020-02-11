@@ -78,13 +78,12 @@
 (s/def :project/acceptedAt string?)
 (s/def :project/paidAt string?)
 (s/def :project/company ::id)
-(s/def :project/members (s/coll-of ::id))
-(s/def :project/invoice ::id)
-(s/def :project/offers (s/coll-of ::id))
 (s/def :project/responsible int?)
 (s/def :project/rate int?)
 (s/def :project.rate/unit keyword?)
-(s/def :project/reference string?)
+(s/def :project/id string?)
+(s/def :project/members (s/coll-of ::id))
+(s/def :project/budget int?)
 (s/def ::new-project (s/keys :opt-un [:project/title
                                       :project/description
                                       :project/responsible
@@ -94,12 +93,11 @@
                                       :project/paidAt
                                       :project/company
                                       :project/members
-                                      :project/invoice
-                                      :project/offers
+                                      :project/budget
                                       :project/rate
                                       :project.rate/unit]))
 (s/def ::project (s/keys :opt-un [:db/id
-                                  :project/reference
+                                  :project/id
                                   :project/title
                                   :project/description
                                   :project/responsible
@@ -109,10 +107,10 @@
                                   :project/paidAt
                                   :project/company
                                   :project/members
-                                  :project/invoice
-                                  :project/offers
+                                  :project/budget
                                   :project/rate
                                   :project.rate/unit]))
+
 (s/def ::projects (s/coll-of ::project))
 
 (s/def :jws/role string?)
@@ -123,3 +121,28 @@
 (s/def :credentials/username string?)
 (s/def :credentials/password string?)
 (s/def ::credentials (s/keys :opt-un [:credentials/username :credentials/password]))
+
+(s/def :turnover/salesData string?)
+(s/def :turnover/bookingDay #(or (string? %) (nil? %)))
+(s/def :turnover/amount int?)
+(s/def :turnover/unit keyword?)
+(s/def :turnover/remark string?)
+(s/def :turnover/invoice int?)
+(s/def :turnover/filename string?)
+(s/def ::new-turnover (s/keys :opt-un [:turnover/salesData
+                                       :turnover/bookingDay
+                                       :turnover/amount
+                                       :turnover/unit
+                                       :turnover/remark
+                                       :turnover/invoice
+                                       :turnover/filename]))
+
+(s/def ::turnover (s/keys :opt-un [:db/id
+                                   :turnover/salesData
+                                   :turnover/bookingDay
+                                   :turnover/amount
+                                   :turnover/unit
+                                   :turnover/remark
+                                   :turnover/invoice
+                                   :turnover/filename]))
+(s/def ::turnovers (s/coll-of ::turnover))

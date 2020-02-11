@@ -21,10 +21,10 @@
             [takomo.utils :as tu]
             [takomo.store
              [company :as sc]
-             [document :as sd]
              [effort :as se]
              [member :as sm]
              [task :as st]
+             [turnover :as sto]
              [prjct :as sp]]
             [org.httpkit.server :as kit]))
 
@@ -210,7 +210,14 @@
                   :swagger {:tags ["project"]}
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (sp/delete-project id)
-                                (ok {}))}}]]]
+                                (ok {}))}}]
+
+       ["/turnovers" {:post {:parameters {:body :takomo.model/new-turnover}
+                            :swagger {:tags ["turnover"]}
+                            :handler (fn [{{new-turnover :body} :parameters}]
+                                       (sto/create-turnover new-turnover)
+                                       (ok {}))}}]
+       ]]
 
      {:data {:coercion reitit.coercion.spec/coercion
              :muuntaja m/instance

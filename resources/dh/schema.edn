@@ -225,10 +225,10 @@
 
 
  ;; turnover
- {:db/ident :turnover/sales-data
+ {:db/ident :turnover/salesData
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :turnover/booking-day
+ {:db/ident :turnover/bookingDay
   :db/valueType :db.type/instant
   :db/cardinality :db.cardinality/one}
  {:db/ident :turnover/amount

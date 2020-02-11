@@ -8,7 +8,7 @@
 (def project-initial-keys
   [:project/title
    :project/description
-   :project/company
+   :project/client
    :project/startDate
    :project/endDate
    :project/responsible
@@ -61,7 +61,7 @@
 (defn post-process [{:keys [:project/startDate :project/endDate] :as project}]
   (let [new-project (-> project
                         (update :project/members #(mapv :db/id %))
-                        (update :project/company #(get % :db/id))
+                        (update :project/client #(get % :db/id))
                         (update :project/responsible #(get % :db/id))
                         tu/remove-namespace)
         new-project (if startDate

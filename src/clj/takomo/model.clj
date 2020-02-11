@@ -23,13 +23,19 @@
 
 (s/def :company/name string?)
 (s/def :company/contact string?)
+(s/def :company/email string?)
+(s/def :company/phone string?)
 (s/def :company/department string?)
 (s/def :company/city string?)
 (s/def :company/street string?)
 (s/def :company/postal string?)
 (s/def :company/country string?)
+(s/def :company/role keyword?)
 (s/def ::new-company (s/keys :opt-un [:company/name
                                       :company/contact
+                                      :company/phone
+                                      :company/email
+                                      :company/role
                                       :company/department
                                       :company/city
                                       :company/street
@@ -38,18 +44,15 @@
 (s/def ::company (s/keys :opt-un [:db/id
                                   :company/name
                                   :company/contact
+                                  :company/phone
+                                  :company/email
+                                  :company/role
                                   :company/department
                                   :company/city
                                   :company/street
                                   :company/postal
                                   :company/country]))
 (s/def ::companies (s/coll-of ::company))
-
-(s/def :document/reference string?)
-(s/def :document/fileName string?)
-(s/def ::document (s/keys :opt-un [:db/id :document/fileName :document/reference]))
-(s/def ::new-document (s/keys :req-un [:document/fileName :document/reference]))
-(s/def ::documents (s/coll-of ::document))
 
 (s/def :task/title string?)
 (s/def :task/description string?)
@@ -77,11 +80,11 @@
 (s/def :project/endDate string?)
 (s/def :project/acceptedAt string?)
 (s/def :project/paidAt string?)
-(s/def :project/company ::id)
+(s/def :project/client ::id)
 (s/def :project/responsible int?)
 (s/def :project/rate int?)
 (s/def :project.rate/unit keyword?)
-(s/def :project/id string?)
+(s/def :project/reference string?)
 (s/def :project/members (s/coll-of ::id))
 (s/def :project/budget int?)
 (s/def ::new-project (s/keys :opt-un [:project/title
@@ -91,13 +94,13 @@
                                       :project/endDate
                                       :project/acceptedAt
                                       :project/paidAt
-                                      :project/company
+                                      :project/client
                                       :project/members
                                       :project/budget
                                       :project/rate
                                       :project.rate/unit]))
 (s/def ::project (s/keys :opt-un [:db/id
-                                  :project/id
+                                  :project/reference
                                   :project/title
                                   :project/description
                                   :project/responsible
@@ -105,7 +108,7 @@
                                   :project/endDate
                                   :project/acceptedAt
                                   :project/paidAt
-                                  :project/company
+                                  :project/client
                                   :project/members
                                   :project/budget
                                   :project/rate

@@ -5,7 +5,9 @@
             [cljs.reader :refer [read-string]]))
 
 (defn overview-template [state model table-data input-keys]
-  (let [plural (str model "s")
+  (let [plural (case model
+                 "company" "companies"
+                 (str model "s"))
         inputs (r/atom {})
         edit-inputs (r/atom (:selected @state))
         toggles (r/atom {:creation-modal false

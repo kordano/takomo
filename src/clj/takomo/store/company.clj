@@ -39,6 +39,8 @@
   (-> @conn
       (d/pull '[:db/id :company/name
                 :company/contact
+                :company/email
+                :company/phone
                 :company/department
                 :company/postal
                 :company/city

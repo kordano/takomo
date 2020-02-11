@@ -38,7 +38,7 @@
 
 
  ;; company
- {:db/ident :company/id
+ {:db/ident :company/reference
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
   :db/unique :db.unique/identity
@@ -55,6 +55,9 @@
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
  {:db/ident :company/email
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :company/phone
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
  {:db/ident :company/department
@@ -87,7 +90,7 @@
 
 
  ;; project
- {:db/ident :project/id
+ {:db/ident :project/reference
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one
   :db/unique :db.unique/identity
@@ -157,7 +160,7 @@
  {:db/ident :task/parent
   :db/valueType :db.type/ref
   :db/cardinality :db.cardinality/one}
- {:db/ident :task/id
+ {:db/ident :task/reference
   :db/valueType :db.type/string
   :db/unique :db.unique/identity
   :db/index true
@@ -180,7 +183,7 @@
 
 
  ;; offer
- {:db/ident :offer/id
+ {:db/ident :offer/reference
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
  {:db/ident :offer/title
@@ -201,7 +204,7 @@
 
 
  ;; invoice
- {:db/ident :invoice/id
+ {:db/ident :invoice/reference
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
  {:db/ident :invoice/title

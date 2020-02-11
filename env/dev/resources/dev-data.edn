@@ -29,7 +29,7 @@
 
  {:db/id -4
   :project/title "Musterprojekt"
-  :project/id "MT"
+  :project/reference "MT"
   :project/description "Musterbeschreibung"
   :project/client -3
   :project/startDate #inst "2019-12-31T23:00:00.000-00:00"
@@ -40,7 +40,7 @@
 
  {:db/id -5
   :project/title "SampelProject"
-  :project/id "ST"
+  :project/reference "ST"
   :project/description "Sample description"
   :project/client -3
   :project/startDate #inst "2019-12-31T23:00:00.000-00:00"
@@ -52,7 +52,7 @@
  {:db/id -6
   :task/title "Musteraufgabe 1"
   :task/description "Musterbeschreibung 1"
-  :task/id "MT-1"
+  :task/reference "MT-1"
   :task/assignee -1
   :task/project -4
   :task/estimation 120.0
@@ -61,7 +61,7 @@
  {:db/id -7
   :task/title "Musteraufgabe 2"
   :task/description "Musterbeschreibung 2"
-  :task/id "MT-2"
+  :task/reference "MT-2"
   :task/assignee -1
   :task/project -4
   :task/estimation 120.0
@@ -70,7 +70,7 @@
  {:db/id -8
   :task/title "Musteraufgabe 3"
   :task/description "Musterbeschreibung 3"
-  :task/id "MT-3"
+  :task/reference "MT-3"
   :task/assignee -2
   :task/project -4
   :task/estimation 120.0
@@ -79,7 +79,7 @@
  {:db/id -9
   :task/title "Sample Task 1"
   :task/description "Sample description 1"
-  :task/id "MT-1"
+  :task/reference "MT-1"
   :task/assignee -2
   :task/project -4
   :task/estimation 50.0

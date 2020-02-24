@@ -192,10 +192,10 @@
  {:db/ident :offer/project
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :offer/created-at
+ {:db/ident :offer/createdAt
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :offer/sent-at
+ {:db/ident :offer/sentAt
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
  {:db/ident :offer/filename
@@ -213,10 +213,10 @@
  {:db/ident :invoice/project
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :invoice/created-at
+ {:db/ident :invoice/createdAt
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
- {:db/ident :invoice/sent-at
+ {:db/ident :invoice/sentAt
   :db/valueType :db.type/string
   :db/cardinality :db.cardinality/one}
  {:db/ident :invoice/remark
@@ -248,4 +248,28 @@
   :db/cardinality :db.cardinality/one}
  {:db/ident :turnover/filename
   :db/valueType :db.type/string
-  :db/cardinality :db.cardinality/one}]
+  :db/cardinality :db.cardinality/one}
+
+
+ ;; asset
+ {:db/ident :asset/reference
+  :db/valueType :db.type/string
+  :db/unique :db.unique/identity
+  :db/index true
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :asset/description
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :asset/price
+  :db/valueType :db.type/long
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :asset/boughtAt
+  :db/valueType :db.type/instant
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :asset/receipt
+  :db/valueType :db.type/string
+  :db/cardinality :db.cardinality/one}
+ {:db/ident :asset/categories
+  :db/valueType :db.type/keyword
+  :db/cardinality :db.cardinality/many}
+ ]

@@ -81,7 +81,6 @@
 
   @state
 
-  (println @state)
+  (init!)
 
-  
-  (init!))
+  )

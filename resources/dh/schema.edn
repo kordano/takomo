@@ -254,7 +254,6 @@
  ;; asset
  {:db/ident :asset/reference
   :db/valueType :db.type/string
-  :db/unique :db.unique/identity
   :db/index true
   :db/cardinality :db.cardinality/one}
  {:db/ident :asset/description

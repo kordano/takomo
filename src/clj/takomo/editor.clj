@@ -6,7 +6,7 @@
 
 
 ;; create and populate database
-(def uri "datahike:mem:///editor")
+(def uri "datahike:mem://editor")
 
 (def schema [{:db/ident :user/name
               :db/valueType :db.type/string

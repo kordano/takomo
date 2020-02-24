@@ -149,3 +149,24 @@
                                    :turnover/invoice
                                    :turnover/filename]))
 (s/def ::turnovers (s/coll-of ::turnover))
+
+
+(s/def :asset/reference string?)
+(s/def :asset/description string?)
+(s/def :asset/price int?)
+(s/def :asset/boughtAt #(or (string? %) (nil? %)))
+(s/def :asset/receipt string?)
+(s/def ::new-asset (s/keys :opt-un [:asset/reference
+                                    :asset/description
+                                    :asset/price
+                                    :asset/boughtAt
+                                    :asset/receipt]))
+
+(s/def ::asset (s/keys :opt-un [:db/id
+                                :asset/reference
+                                :asset/description
+                                :asset/price
+                                :asset/boughtAt
+                                :asset/receipt]))
+
+(s/def ::assets (s/coll-of ::asset))

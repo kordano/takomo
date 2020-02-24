@@ -13,7 +13,7 @@
    :turnover/filename])
 
 
-(defn pre-process [{:keys [bookingDay amount] :as turnover}]
+(defn pre-process [{:keys [bookingDay] :as turnover}]
   (letfn [(update-date [t]
             (if bookingDay
               (update t :turnover/bookingDay str->Date)

@@ -25,7 +25,8 @@
              [member :as sm]
              [task :as st]
              [turnover :as sto]
-             [prjct :as sp]]
+             [prjct :as sp]
+             [asset :as sa]]
             [org.httpkit.server :as kit]))
 
 (def secret (nonce/random-bytes 32))
@@ -234,6 +235,31 @@
                   :handler    (fn [{{{:keys [id]} :path} :parameters}]
                                 (sto/delete-turnover id)
                                 (ok {}))}}]
+
+       ["/assets" {:get {:responses {200 {:body :takomo.model/assets}}
+                           :swagger {:tags ["asset"]}
+                           :handler (fn [_]
+                                      {:status 200
+                                       :body (sa/read-assets)})}
+                      :post {:parameters {:body :takomo.model/new-asset}
+                            :swagger {:tags ["asset"]}
+                            :handler (fn [{{new-asset :body} :parameters}]
+                                       (sa/create-asset new-asset)
+                                       (ok {}))}}]
+       ["/assets/:id"
+        {:put    {:parameters {:body :takomo.model/new-asset
+                               :path ::path-params}
+                  :swagger {:tags ["asset"]}
+                  :handler    (fn [{{updated-asset :body {:keys [id]} :path} :parameters}]
+                                (sa/update-asset (assoc updated-asset :db/id id))
+                                (ok {}))}
+         :delete {:parameters {:path ::path-params}
+                  :swagger {:tags ["asset"]}
+                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
+                                (sa/delete-asset id)
+                                (ok {}))}}]
+
+
        ]]
 
      {:data {:coercion reitit.coercion.spec/coercion

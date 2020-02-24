@@ -21,49 +21,52 @@
       (get-overview)
       (fn [state]
         [:div.container
-         [:div.columns.level
-          [:div.column.level-left
-           [:h1.title (clojure.string/capitalize plural)]]
-          [:dib.column.level-right
-           [:button.button.is-primary
-            {:on-click (fn [] (swap! toggles assoc :creation-modal true))}
-            (str "Add new " capitalized)]]]
-         [:table.table
-          [:thead
-           [:tr (map (fn [[k v]] [:th {:key v} v]) table-data) [:th ""]]]
-          [:tbody
-           (map (fn [{:keys [id] :as el}]
-                  [:tr {:key id}
-                   (map
-                    (fn [[k _]]
-                      [:td {:key (or (str (get el k) k)
-                                     (str id k))}
-                       (case (-> input-keys k :input-type)
-                         :currency (if-let [v (get el k)]
-                                     (str (/ v 100) " €")
-                                     "-")
-                         :date (if-let [v (get el k)]
-                                 (.toLocaleDateString (js/Date. v))
-                                 "-")
-                         (or (get el k) "-"))])
-                    table-data)
-                   [:td
-                    [:div
-                     [:a
-                      {:on-click (fn []
-                                   (reset! edit-inputs el)
-                                   (swap! toggles assoc :edit-modal true))}
-                      [:span.icon [:i.fas.fa-edit.has-text-dark]]]
-                     [:a
-                      {:on-click (fn []
-                                   (net/api-delete
-                                    state
-                                    (str plural "/" id)
-                                    (fn []
-                                      (swap! state update-in [:notifications] conj (str capitalized " deleted!"))
-                                      (get-overview))))}
-                      [:span.icon [:i.fas.fa-trash.has-text-danger]]]]]])
-                (get @state (keyword plural)))]]
+         [:div.box
+          [:div.level
+           [:div.level-left
+            [:div.level-item
+             [:h1.title (clojure.string/capitalize plural)]]]
+           [:dib.level-right
+            [:div.level-item
+             [:button.button.is-primary
+              {:on-click (fn [] (swap! toggles assoc :creation-modal true))}
+              (str "Add new " capitalized)]]]]
+          [:table.table
+           [:thead
+            [:tr (map (fn [[k v]] [:th {:key v} v]) table-data) [:th ""]]]
+           [:tbody
+            (map (fn [{:keys [id] :as el}]
+                   [:tr {:key id}
+                    (map
+                     (fn [[k _]]
+                       [:td {:key (or (str (get el k) k)
+                                      (str id k))}
+                        (case (-> input-keys k :input-type)
+                          :currency (if-let [v (get el k)]
+                                      (str (/ v 100) " €")
+                                      "-")
+                          :date (if-let [v (get el k)]
+                                  (.toLocaleDateString (js/Date. v))
+                                  "-")
+                          (or (get el k) "-"))])
+                     table-data)
+                    [:td
+                     [:div
+                      [:a
+                       {:on-click (fn []
+                                    (reset! edit-inputs el)
+                                    (swap! toggles assoc :edit-modal true))}
+                       [:span.icon [:i.fas.fa-edit.has-text-dark]]]
+                      [:a
+                       {:on-click (fn []
+                                    (net/api-delete
+                                     state
+                                     (str plural "/" id)
+                                     (fn []
+                                       (swap! state update-in [:notifications] conj (str capitalized " deleted!"))
+                                       (get-overview))))}
+                       [:span.icon [:i.fas.fa-trash.has-text-danger]]]]]])
+                 (get @state (keyword plural)))]]]
          [:div.modal
           {:class (if (:creation-modal @toggles) "is-active is-clipped" "")}
           [:div.modal-background]

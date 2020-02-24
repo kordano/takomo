@@ -15,11 +15,9 @@
     :unit "Unit"
     :project "Project"}]
     [:div.container
-     [:h1.title "Takomo"]
-     [:p.subtitle "Lambdaforge ERP Services"]
-     [:section.section
-      [:div.box
-       [:h1.title "My Tasks"]
+     [:div.box
+      [:section.section
+       [:h2.title "My Tasks"]
        [:table.table
         [:thead
          [:tr (map (fn [[k v]] [:th {:key v} v]) table-data) [:th ""]]]
@@ -36,4 +34,4 @@
                     [:span.icon [:i.fas.fa-play.has-text-dark]]]
                    ]]])
               (-> @state :self :tasks))]]
-        ]]]))
+       ]]]))

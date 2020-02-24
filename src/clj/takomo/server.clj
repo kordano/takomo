@@ -212,11 +212,28 @@
                                 (sp/delete-project id)
                                 (ok {}))}}]
 
-       ["/turnovers" {:post {:parameters {:body :takomo.model/new-turnover}
+       ["/turnovers" {:get {:responses {200 {:body :takomo.model/turnovers}}
+                           :swagger {:tags ["turnover"]}
+                           :handler (fn [_]
+                                      {:status 200
+                                       :body (sto/read-turnovers)})}
+                      :post {:parameters {:body :takomo.model/new-turnover}
                             :swagger {:tags ["turnover"]}
                             :handler (fn [{{new-turnover :body} :parameters}]
                                        (sto/create-turnover new-turnover)
                                        (ok {}))}}]
+       ["/turnovers/:id"
+        {:put    {:parameters {:body :takomo.model/new-turnover
+                               :path ::path-params}
+                  :swagger {:tags ["turnover"]}
+                  :handler    (fn [{{updated-turnover :body {:keys [id]} :path} :parameters}]
+                                (sto/update-turnover (assoc updated-turnover :db/id id))
+                                (ok {}))}
+         :delete {:parameters {:path ::path-params}
+                  :swagger {:tags ["turnover"]}
+                  :handler    (fn [{{{:keys [id]} :path} :parameters}]
+                                (sto/delete-turnover id)
+                                (ok {}))}}]
        ]]
 
      {:data {:coercion reitit.coercion.spec/coercion

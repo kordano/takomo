@@ -7,6 +7,7 @@
             [takomo.pages.login :refer [login-page]]
             [takomo.pages.prjct :refer [projects-page]]
             [takomo.pages.task :refer [tasks-page]]
+            [takomo.pages.turnovers :refer [turnovers-page]]
             [cljs.reader :refer [read-string]]
             [accountant.core :as accountant]
             [secretary.core :as secretary :refer-macros [defroute]]
@@ -49,6 +50,9 @@
 (defroute "/tasks" []
   (reset! selected-page tasks-page))
 
+(defroute "/turnovers" []
+  (reset! selected-page turnovers-page))
+
 (defn hook-browser-navigation! []
   (doto (History.)
     (events/listen
@@ -79,4 +83,5 @@
 
   (println @state)
 
+  
   (init!))

@@ -7,7 +7,7 @@
                :placeholder "e.g. Gehalt Konto 1234"}
    :bookingDay {:input-type :date
                  :label "Booking Date"}
-   :amount {:input-type :int
+   :amount {:input-type :currency
             :label "Amount"
             :placeholder "e.g. 498"}
    :remark {:input-type :text
@@ -19,5 +19,7 @@
    state
    "turnover"
    {:bookingDay "Booking Day"
-    :salesData "Sales Data"}
+    :salesData "Sales Data"
+    :amount "Amount"
+    :remark "Remark"}
    input-data])

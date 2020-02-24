@@ -6,12 +6,12 @@
              server]))
 
 (defn -main [& args]
-  (println (mount/start)))
+(println (mount/start)))
 
 (comment
 
-  (mount/start)
+(mount/start)
 
-  (mount/stop)
+(mount/stop)
 
-  (-main))
+(-main))

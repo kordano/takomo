@@ -8,6 +8,7 @@
      {:type (case input-type
               :int :number
               :float :number
+              :currency :number
               input-type)
       :lang "en"
       :step "any"
@@ -18,9 +19,9 @@
                                                                 :number (js/parseFloat val)
                                                                 :int (js/parseInt val)
                                                                 :float (js/parseFloat val)
+                                                                :currency (js/parseInt val)
                                                                 val))))
       :value (get @state input-name)}]]])
-
 
 (defn select [state input-name label allowed-values]
   [:div.field {:key input-name}

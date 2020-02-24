@@ -35,7 +35,17 @@
            (map (fn [{:keys [id] :as el}]
                   [:tr {:key id}
                    (map
-                    (fn [[k v]] [:td {:key (or (str (get el k) k) (str id k))} (or (get el k) "-")])
+                    (fn [[k _]]
+                      [:td {:key (or (str (get el k) k)
+                                     (str id k))}
+                       (case (-> input-keys k :input-type)
+                         :currency (if-let [v (get el k)]
+                                     (str (/ v 100) " €")
+                                     "-")
+                         :date (if-let [v (get el k)]
+                                 (.toLocaleDateString (js/Date. v))
+                                 "-")
+                         (or (get el k) "-"))])
                     table-data)
                    [:td
                     [:div
@@ -74,7 +84,7 @@
                  (let [data @inputs]
                    (net/api-post
                     state
-                    (str model "s")
+                    plural
                     data
                     (fn []
                       (swap! toggles assoc :creation-modal false)

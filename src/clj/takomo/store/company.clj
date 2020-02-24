@@ -13,27 +13,47 @@
                    :company/street
                    :company/role
                    :company/postal
+                   :company/role
                    :company/country])
 
-(defn pre-process [company]
-  (-> company
-      (add-namespace :company)
-      (select-keys company-keys)))
+(defn pre-process [{:keys [role] :as company}]
+  (letfn [(update-role [c]
+            (if role
+              (update c :role (fn [old] (keyword "company" (name old))))
+              c))]
+    (-> company
+        update-role
+        (add-namespace :company)
+        (select-keys company-keys))))
 
 (defn post-process [company]
-  (-> company
-      remove-namespace))
+  (letfn [(update-role [{:keys [company/role] :as c}]
+            (if role
+              (update c :company/role #(-> % :db/ident name keyword))
+              c))]
+    (-> company
+        update-role
+        remove-namespace)))
 
 (defn create-company [new-company]
   (d/transact conn [(pre-process new-company)]))
 
 (defn read-companies []
   (->>
-       (d/q '[:find [(pull ?e ?selection) ...]
-              :in $ ?selection
-              :where [?e :company/name ?name]]
-            @conn company-keys)
-       (mapv post-process)))
+   (d/q '[:find [(pull ?e [:db/id :company/name
+                            :company/contact
+                            :company/email
+                            :company/phone
+                            :company/department
+                            :company/postal
+                            :company/city
+                            :company/street
+                            :company/postal
+                            :company/country
+                            {:company/role [:db/ident]}]) ...]
+          :where [?e :company/name ?name]]
+        @conn)
+   (mapv post-process)))
 
 (defn read-company-by-id [id]
   (-> @conn
@@ -46,7 +66,8 @@
                 :company/city
                 :company/street
                 :company/postal
-                :company/country] id)
+                :company/country
+                {:company/role [:db/ident ]}] id)
       post-process))
 
 (defn read-company-by-name [name]

@@ -17,8 +17,9 @@
    :role {:input-type :select
           :label "Role"
           :placeholder "Select role"
-          :allowed-values [{:label "guest" :id "guest"} 
+          :allowed-values [{:label "external" :id "external"}
                            {:label "employee" :id "employee"}
+                           {:label "accountant" :id "accountant"}
                            {:label "manager" :id "manager"}
                            {:label "admin" :id "admin"}]}})
 

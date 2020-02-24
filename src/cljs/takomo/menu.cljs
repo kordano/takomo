@@ -17,7 +17,8 @@
          [:li [:a {:on-click #(acc/navigate! "/companies")} "Companies"]]
          [:li [:a {:on-click #(acc/navigate! "/projects")} "Projects"]]
          [:li [:a {:on-click #(acc/navigate! "/tasks")} "Tasks"]]
-         [:li [:a {:on-click #(acc/navigate! "/turnovers")} "Transactions"]]])
+         [:li [:a {:on-click #(acc/navigate! "/turnovers")} "Transactions"]]
+         [:li [:a {:on-click #(acc/navigate! "/assets")} "Assets"]]])
       [:p.menu-label ""]
       [:ul.menu-list
        [:li

@@ -33,7 +33,7 @@
                               (fn [{:keys [id firstname lastname]}]
                                 {:id id :label (str firstname " " lastname)})
                               (:members @state))}
-   :rate {:input-type :int
+   :rate {:input-type :currency
           :label "Rate"
           :placeholder "100"}
    :unit {:input-type :select

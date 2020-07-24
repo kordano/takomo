@@ -6,7 +6,7 @@
   :source-paths ["src/clj" "src/cljs" "test/clj" "test/cljs"]
   :main takomo.core
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [io.replikativ/datahike "0.2.2-SNAPSHOT"]
+                 [io.replikativ/datahike "0.3.2-SNAPSHOT"]
                  [buddy/buddy-auth "2.1.0"]
                  [buddy/buddy-hashers "1.4.0"]
                  [io.replikativ/hasch "0.3.6-SNAPSHOT"]
